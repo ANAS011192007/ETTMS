@@ -16,7 +16,7 @@ export default {
       if (res.ok && data) {
 
       console.log(data.access_token)
-      return data.body
+      return data
 
     }
   } catch (error) {

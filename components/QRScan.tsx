@@ -27,105 +27,115 @@ function QRScanPage({ Page, trackId }: { Page: string; trackId?: string }) {
     const params = new URLSearchParams();
 
     try {
-      if (Page === "Device") {
-        let access_token;
+      if (data !== "No Result") {
+        if (Page === "Device") {
+          if (data.length === 17) {
+            let access_token;
 
-        if (localStorage.getItem("access_token") === undefined) {
-          access_token =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODFhMzQzMWQzYzI2YzU2YzhkN2ZiNSIsImVtYWlsIjoiYWRtaW5AdGVzdC5pbyIsImZpcnN0X25hbWUiOiJUZXN0IiwibGFzdF9uYW1lIjoiQWRtaW4iLCJjb250YWN0X251bWJlciI6IjAxNjExMTExMTExIiwib3JnYW5pemF0aW9uIjoiNjQ4MTllYzljZGI5MzY2M2Y1ODQyOWQyIiwib3JnYW5pemF0aW9uX25hbWVfZW4iOiJUZXN0IE9mZmljZSAxIiwib3JnYW5pemF0aW9uX25hbWVfanAiOiLjg4bjgrnjg4jjgqrjg5XjgqPjgrkxIiwiaWF0IjoxNzA1OTgwNDkwLCJleHAiOjE3MDg1NzI0OTB9.YF1cru1HsiMuy5qqCehzglfz91BWs3kcCsKuxAdZJcA";
-          localStorage.setItem("access_token", access_token!);
-          console.log("asasasa", localStorage.getItem("access_token"));
-        } else {
-          access_token = localStorage.getItem("access_token");
-        }
+            if (localStorage.getItem("access_token") === undefined) {
+              access_token =
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODFhMzQzMWQzYzI2YzU2YzhkN2ZiNSIsImVtYWlsIjoiYWRtaW5AdGVzdC5pbyIsImZpcnN0X25hbWUiOiJUZXN0IiwibGFzdF9uYW1lIjoiQWRtaW4iLCJjb250YWN0X251bWJlciI6IjAxNjExMTExMTExIiwib3JnYW5pemF0aW9uIjoiNjQ4MTllYzljZGI5MzY2M2Y1ODQyOWQyIiwib3JnYW5pemF0aW9uX25hbWVfZW4iOiJUZXN0IE9mZmljZSAxIiwib3JnYW5pemF0aW9uX25hbWVfanAiOiLjg4bjgrnjg4jjgqrjg5XjgqPjgrkxIiwiaWF0IjoxNzA1OTgwNDkwLCJleHAiOjE3MDg1NzI0OTB9.YF1cru1HsiMuy5qqCehzglfz91BWs3kcCsKuxAdZJcA";
+              localStorage.setItem("access_token", access_token!);
+              console.log("asasasa", localStorage.getItem("access_token"));
+            } else {
+              access_token = localStorage.getItem("access_token");
+            }
 
-        const tid = await axios.post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/tracks/showTrackIdByTag`,
-          { tag_number: datas },
-          {
-            headers: {
-              Authorization: `Bearer ${access_token}`,
-              "Content-Type": "application/json",
-            },
+            const tid = await axios.post(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/tracks/showTrackIdByTag`,
+              { tag_number: datas },
+              {
+                headers: {
+                  Authorization: `Bearer ${access_token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            console.log(tid);
+
+            const devicerecordSummaryResponse = await axios.post(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/devices/showAllActiveDevicesOfFollowingTrack`,
+              { track_id: tid.data.body?.track_id },
+              {
+                headers: {
+                  Authorization: `Bearer ${access_token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            if (datas) params.append("device_id", datas);
+
+            const query = params.size ? "?" + params.toString() : "";
+
+            if (devicerecordSummaryResponse.data.status === 200) {
+              router.push(`Show_Device_Information${query}`);
+            } else {
+              toast.error("This device has not been registered yet.");
+            }
+          } else if (data.length >= 17) {
+            toast.error("Not a valid Track ID");
           }
-        );
-
-        console.log(tid);
-
-        const devicerecordSummaryResponse = await axios.post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/devices/showAllActiveDevicesOfFollowingTrack`,
-          { track_id: tid.data.body?.track_id },
-          {
-            headers: {
-              Authorization: `Bearer ${access_token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (datas) params.append("device_id", datas);
-
-        const query = params.size ? "?" + params.toString() : "";
-
-        if (devicerecordSummaryResponse.data.status === 200) {
-          router.push(`Show_Device_Information${query}`);
         } else {
-          toast.error("This device has not been registered yet.");
-        }
-      } else {
-        if (data) {
-          params.append("track_tag", data);
-        }
+          if (data.length >= 19) {
+            if (data) {
+              params.append("track_tag", data);
+            }
 
-        let access_token;
+            let access_token;
 
-        if (localStorage.getItem("access_token") === undefined) {
-          access_token =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODFhMzQzMWQzYzI2YzU2YzhkN2ZiNSIsImVtYWlsIjoiYWRtaW5AdGVzdC5pbyIsImZpcnN0X25hbWUiOiJUZXN0IiwibGFzdF9uYW1lIjoiQWRtaW4iLCJjb250YWN0X251bWJlciI6IjAxNjExMTExMTExIiwib3JnYW5pemF0aW9uIjoiNjQ4MTllYzljZGI5MzY2M2Y1ODQyOWQyIiwib3JnYW5pemF0aW9uX25hbWVfZW4iOiJUZXN0IE9mZmljZSAxIiwib3JnYW5pemF0aW9uX25hbWVfanAiOiLjg4bjgrnjg4jjgqrjg5XjgqPjgrkxIiwiaWF0IjoxNzA1OTgwNDkwLCJleHAiOjE3MDg1NzI0OTB9.YF1cru1HsiMuy5qqCehzglfz91BWs3kcCsKuxAdZJcA";
-          localStorage.setItem("access_token", access_token!);
-          console.log("asasasa", localStorage.getItem("access_token"));
-        } else {
-          access_token = localStorage.getItem("access_token");
-          console.log("paisi");
-        }
+            if (localStorage.getItem("access_token") === undefined) {
+              access_token =
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODFhMzQzMWQzYzI2YzU2YzhkN2ZiNSIsImVtYWlsIjoiYWRtaW5AdGVzdC5pbyIsImZpcnN0X25hbWUiOiJUZXN0IiwibGFzdF9uYW1lIjoiQWRtaW4iLCJjb250YWN0X251bWJlciI6IjAxNjExMTExMTExIiwib3JnYW5pemF0aW9uIjoiNjQ4MTllYzljZGI5MzY2M2Y1ODQyOWQyIiwib3JnYW5pemF0aW9uX25hbWVfZW4iOiJUZXN0IE9mZmljZSAxIiwib3JnYW5pemF0aW9uX25hbWVfanAiOiLjg4bjgrnjg4jjgqrjg5XjgqPjgrkxIiwiaWF0IjoxNzA1OTgwNDkwLCJleHAiOjE3MDg1NzI0OTB9.YF1cru1HsiMuy5qqCehzglfz91BWs3kcCsKuxAdZJcA";
+              localStorage.setItem("access_token", access_token!);
+              console.log("asasasa", localStorage.getItem("access_token"));
+            } else {
+              access_token = localStorage.getItem("access_token");
+              console.log("paisi");
+            }
 
-        const tid = await axios.post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/devices/showDeviceDetailsByDevicetag`,
-          { device_tag: data },
-          {
-            headers: {
-              Authorization: `Bearer ${access_token}`,
-              "Content-Type": "application/json",
-            },
+            const tid = await axios.post(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/devices/showDeviceDetailsByDevicetag`,
+              { device_tag: data },
+              {
+                headers: {
+                  Authorization: `Bearer ${access_token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            console.log(tid);
+
+            const devicerecordSummaryResponse = await axios.post(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/records/showAllRecordsOfFollowingDevice`,
+              { device_id: tid.data.body._id },
+              {
+                headers: {
+                  Authorization: `Bearer ${access_token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            if (devicerecordSummaryResponse.data.status === 200) {
+              params.append("track_id", tid.data.body._id);
+              const query = params.size ? "?" + params.toString() : "";
+              router.push(`Show_Tracking_Information${query}`);
+            } else {
+              toast.error("This device has not been registered yet.");
+            }
+          } else {
+            toast.error("Not a valid Device ID");
           }
-        );
-
-        console.log(tid);
-
-        const devicerecordSummaryResponse = await axios.post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/records/showAllRecordsOfFollowingDevice`,
-          { device_id: tid.data.body._id },
-          {
-            headers: {
-              Authorization: `Bearer ${access_token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (devicerecordSummaryResponse.data.status === 200) {
-          params.append("track_id", tid.data.body._id);
-          const query = params.size ? "?" + params.toString() : "";
-          router.push(`Show_Tracking_Information${query}`);
-        } else {
-          toast.error("This device has not been registered yet.");
         }
       }
     } catch (error: any) {
       console.error("Error:", error);
 
       if (error.response) {
-        toast.error(error.response.statustext);
+        toast.error("Not a registered Device ID");
       }
     }
   };

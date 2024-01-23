@@ -16,23 +16,25 @@ function QRCodePage({ Page, trackId }: { Page: string; trackId?: string }) {
   const { ref } = useZxing({
     onDecodeResult(result) {
       setData(result.getText());
-
+      console.log(data);
       const params = new URLSearchParams();
-      if (Page === "Device") {
-        if (data.length === 17) {
-          if (data) params.append("device_id", result.getText());
-          const query = params.size ? "?" + params.toString() : "";
-          router.push(`Device_registration/form${query}`);
+      if (data !== "No Result") {
+        if (Page === "Device") {
+          if (data.length === 17) {
+            if (data) params.append("device_id", result.getText());
+            const query = params.size ? "?" + params.toString() : "";
+            router.push(`Device_registration/form${query}`);
+          } else if (data.length >= 17) {
+            toast.error("Not a valid Track ID");
+          }
         } else {
-          toast.error("Not a valid Track ID");
-        }
-      } else {
-        if (data.length === 19) {
-          if (data) params.append("track_id", result.getText());
-          const query = params.size ? "?" + params.toString() : "";
-          router.push(`Tracking_registration/form${query}`);
-        } else {
-          toast.error("Not a valid Device ID");
+          if (data.length >= 19) {
+            if (data) params.append("track_id", result.getText());
+            const query = params.size ? "?" + params.toString() : "";
+            router.push(`Tracking_registration/form${query}`);
+          } else if (data.length <= 17 && data !== "No Result") {
+            toast.error("Not a valid Device ID");
+          }
         }
       }
     },
@@ -118,22 +120,24 @@ function QRCodePage({ Page, trackId }: { Page: string; trackId?: string }) {
               className="mb- px-6 py-2 bg-slate-600 text-white text-lg rounded-3xl cursor-pointer"
               onClick={() => {
                 const params = new URLSearchParams();
-                if (Page === "Device") {
-                  if (data.length === 17) {
-                    if (data) params.append("device_id", data);
-                    const query = params.size ? "?" + params.toString() : "";
-                    router.push("Device_registration/form" + query);
+                if (data !== "No Result") {
+                  if (Page === "Device") {
+                    if (data.length === 17) {
+                      if (data) params.append("device_id", data);
+                      const query = params.size ? "?" + params.toString() : "";
+                      router.push("Device_registration/form" + query);
+                    } else {
+                      toast.error("Not a valid Track ID");
+                    }
                   } else {
-                    toast.error("Not a valid Track ID");
-                  }
-                } else {
-                  if (data.length === 19) {
-                    if (data) params.append("track_id", data);
+                    if (data.length >= 19) {
+                      if (data) params.append("track_id", data);
 
-                    const query = params.size ? "?" + params.toString() : "";
-                    router.push("Tracking_registration/form" + query);
-                  } else {
-                    toast.error("Not a valid Device ID");
+                      const query = params.size ? "?" + params.toString() : "";
+                      router.push("Tracking_registration/form" + query);
+                    } else {
+                      toast.error("Not a valid Device ID");
+                    }
                   }
                 }
               }}
