@@ -27,9 +27,9 @@ function QRScanPage({ Page, trackId }: { Page: string; trackId?: string }) {
     const params = new URLSearchParams();
 
     try {
-      if (data !== "No Result") {
+      if (datas !== "No Result") {
         if (Page === "Device") {
-          if (data.length === 17) {
+          if (datas.length === 17) {
             let access_token;
 
             if (localStorage.getItem("access_token") === undefined) {
@@ -78,8 +78,8 @@ function QRScanPage({ Page, trackId }: { Page: string; trackId?: string }) {
             toast.error("Not a valid Track ID");
           }
         } else {
-          if (data.length >= 19) {
-            if (data) {
+          if (datas.length >= 19) {
+            if (datas) {
               params.append("track_tag", data);
             }
 
@@ -126,7 +126,7 @@ function QRScanPage({ Page, trackId }: { Page: string; trackId?: string }) {
             } else {
               toast.error("This device has not been registered yet.");
             }
-          } else {
+          } else if (datas.length <= 17) {
             toast.error("Not a valid Device ID");
           }
         }
@@ -135,7 +135,7 @@ function QRScanPage({ Page, trackId }: { Page: string; trackId?: string }) {
       console.error("Error:", error);
 
       if (error.response) {
-        toast.error("Not a registered Device ID");
+        // toast.error("Not a registered Device ID");
       }
     }
   };

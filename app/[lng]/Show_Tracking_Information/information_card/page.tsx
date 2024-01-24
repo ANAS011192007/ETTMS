@@ -39,9 +39,6 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
   const pathname = usePathname();
   const lng = pathname.split("/")[1];
   const { t } = useTranslation(lng, "TrackInfoCard");
-  const matchingDevice = trackingData.DeviceRegistrationData.find(
-    (device) => device.deviceid === trackId
-  );
   const recordData = trackingData.trackingData;
   const imageContainerRefs = recordData.map(() => useRef<HTMLDivElement>(null));
   const JpdownloadPDF = async () => {
@@ -78,21 +75,30 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     }));
 
     const pdf = new jsPDF({
-      unit: "mm",
-      format: "a4",
-      orientation: "portrait",
+      // unit: "mm",
+      // format: "a4",
+      // orientation: "portrait",
     });
-
-    pdf.setFont("normal", "bold");
+    // pdf.addFileToVFS(
+    //   "https://cdn.glitch.com/90f6c9a8-8978-4aed-be66-e5f49d0355d3%2FMouhitsuBold.ttf?v=1614229112154",
+    //   ""
+    // );
+    pdf.addFont(
+      "https://cdn.glitch.com/90f6c9a8-8978-4aed-be66-e5f49d0355d3%2FMouhitsuBold.ttf?v=1614229112154",
+      "Mouhitsu",
+      "normal"
+    );
+    pdf.setFont("Mouhitsu", "normal");
     pdf.setFontSize(10);
-
+    pdf.text(`デバイスい`, 20, 20);
+    // pdf.addFileToVFS('NotoSansJP-VariableFont_wght-normal.ttf', font);
+    // pdf.addFont('NotoSansJP-VariableFont_wght-normal.ttf', 'NotoSansJP-VariableFont_wght', 'normal');
     const id = `${t("deviceid")} : ${trackId}`;
     pdf.text(id, 130, 30);
 
     pdf.setFontSize(20);
     const title = t("title");
     pdf.text(title, 40, 45);
-    pdf.setFont("normal", "normal");
     pdf.setFontSize(13);
     const info = t("body1");
 
@@ -102,32 +108,34 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     pdf.text(info, margin, 60, { maxWidth });
 
     const specification = `
-   $("startdate")
-    追跡完了日:
-    要求仕様:`;
+     ${t("startdate")}:
+     ${t("endDate")}:
+     ${t("requiredSpecifications")}:`;
 
-    pdf.setFont("normal", "bold");
     pdf.text(specification, 40, 75);
-    pdf.setFont("normal", "normal");
     const tstart = `
-        12/21/2023, 2:33:08 PM
-    `;
+          12/21/2023, 2:33:08 PM
+      `;
     pdf.text(tstart, 86, 75);
     const tend = `
-        12/21/2023, 2:40:08 PM
-    `;
+          12/21/2023, 2:40:08 PM
+      `;
     pdf.text(tend, 99, 80.5);
     const req = `
-        ERA>PUR>PUR
-    `;
+          ERA>PUR>PUR
+      `;
     pdf.text(req, 93, 85.8);
 
-    const additionalInfo =
-      "この文書は、企業のデータ消去作業が完了したことを証明するものとなります。";
+    const additionalInfo = `${t("body2")}`;
     pdf.text(additionalInfo, margin, 105, { maxWidth });
 
     const deviceDetails = [
-      ["デバイスタイプ", "メーカー", "モデル", "シリアル"],
+      [
+        `${t("deviceType")}`,
+        `${t("manufacturer")}`,
+        `${t("model")}`,
+        `${t("serial")}`,
+      ],
       [
         inf.data.body.device_model.device_type,
         inf.data.body.device_model.manufacturer,
@@ -144,7 +152,7 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     var cellHeight = 15;
 
     pdf.setFontSize(20);
-    pdf.text("Device Details", tableX, tableY - 10);
+    pdf.text(`${t("deviceDetails")}`, tableX, tableY - 10);
     pdf.setFontSize(15);
     deviceDetails[0].forEach((header, index) => {
       const cellX = tableX + index * cellWidth;
@@ -169,7 +177,13 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     });
 
     const recordDetails = [
-      ["記録日", "処理タイプ", "使用したソフトウェア", "位置", "画像"],
+      [
+        `${t("recordDate")}`,
+        `${t("processingType")}`,
+        `${t("softwareUsed")}`,
+        `${t("location")}`,
+        `${t("image")}`,
+      ],
       ...dataList.current.map((record: any) => [
         record["Created at"].slice(0, 10),
         record["Processing Type"],
@@ -182,7 +196,7 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     const recordTableY = tableY + 50;
 
     pdf.setFontSize(20);
-    pdf.text("Record Information Details", tableX, recordTableY - 10);
+    pdf.text(`${t("recordInformationDetails")}`, tableX, recordTableY - 10);
     pdf.setFontSize(15);
     const cellWidthForRecord = maxWidth / recordDetails[0].length;
 
@@ -345,9 +359,9 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     const cellWidth = maxWidth / deviceDetails[0].length;
     var cellHeight = 15;
 
-    pdf.setFontSize(20);
+    pdf.setFontSize(17);
     pdf.text("Device Details", tableX, tableY - 10);
-    pdf.setFontSize(15);
+    pdf.setFontSize(14);
     deviceDetails[0].forEach((header, index) => {
       const cellX = tableX + index * cellWidth;
       const cellY = tableY;
@@ -383,9 +397,9 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
 
     const recordTableY = tableY + 50;
 
-    pdf.setFontSize(20);
+    pdf.setFontSize(17);
     pdf.text("Record Information Details", tableX, recordTableY - 10);
-    pdf.setFontSize(15);
+    pdf.setFontSize(14);
     const cellWidthForRecord = maxWidth / recordDetails[0].length;
 
     recordDetails[0].forEach((header, index) => {

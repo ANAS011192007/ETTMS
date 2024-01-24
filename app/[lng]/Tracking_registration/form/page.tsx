@@ -9,6 +9,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -115,6 +116,7 @@ const TrackRegistrationFormPage = () => {
     } catch (error: any) {
       console.error("Error fetching session data:", error);
       setLoading(false);
+      toast.error("All processing types are full");
       setError(true);
     }
   };

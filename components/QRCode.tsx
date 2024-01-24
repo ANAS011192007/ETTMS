@@ -18,21 +18,21 @@ function QRCodePage({ Page, trackId }: { Page: string; trackId?: string }) {
       setData(result.getText());
       console.log(data);
       const params = new URLSearchParams();
-      if (data !== "No Result") {
+      if (result.getText() !== "No Result") {
         if (Page === "Device") {
-          if (data.length === 17) {
-            if (data) params.append("device_id", result.getText());
+          if (result.getText().length === 17) {
+            if (result.getText()) params.append("device_id", result.getText());
             const query = params.size ? "?" + params.toString() : "";
             router.push(`Device_registration/form${query}`);
-          } else if (data.length >= 17) {
+          } else if (result.getText().length >= 17) {
             toast.error("Not a valid Track ID");
           }
         } else {
-          if (data.length >= 19) {
-            if (data) params.append("track_id", result.getText());
+          if (result.getText().length >= 19) {
+            if (result.getText()) params.append("track_id", result.getText());
             const query = params.size ? "?" + params.toString() : "";
             router.push(`Tracking_registration/form${query}`);
-          } else if (data.length <= 17 && data !== "No Result") {
+          } else if (result.getText().length <= 17) {
             toast.error("Not a valid Device ID");
           }
         }

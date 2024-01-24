@@ -26,6 +26,24 @@
     "Specification": "Specification",
     "CSVFile": "CSV FILE",
     "QRCode": "QR CODE",
-    "SomePDF": "ADEC PDF"
+    "SomePDF": "ADEC PDF",
+    "deviceId": "Device ID",
+    "title": "Tracking Information Certificate For Device",
+    "body1": "Regarding the equipment listed below, the data is correct that all processing has been completed in accordance with the requested processing. It will be certified by the Association of Data Erase Certification (ADEC).",
+    "startDate": "Tracking Start Date",
+    "endDate": "Tracking Completion Date",
+    "requiredSpecifications": "Required Specifications",
+    "body2": "This document serves as proof that your company data erasure work has been completed.",
+    "deviceDetails": "Device Details",
+    "deviceType": "Device Type",
+    "manufacturer": "Manufacturer",
+    "model": "Model",
+    "serial": "Serial",
+    "recordInformationDetails": "Record Information Details",
+    "recordDate": "Record Date",
+    "processingType": "Processing Type",
+    "softwareUsed": "Software Used",
+    "location": "Location",
+    "image": "Image"
 
 }

@@ -27,14 +27,17 @@ export function DeleteButton({ trackingData }: { trackingData: string }) {
   const handleDelete = async () => {
     console.log(trackingData);
     try {
-      // Make the DELETE request to delete the data
-      const response = await axios.delete(
-        `http://localhost:3001/DeviceRegistrationData/${trackingData}`
+      const access_token = localStorage.getItem("access_token");
+      const deleting = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/devices/deleteDeviceById`,
+        { device_id: trackingData },
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
-
-      if (!response.data) {
-        throw new Error("Failed to delete tracking info");
-      }
 
       console.log("Deletion successful");
 

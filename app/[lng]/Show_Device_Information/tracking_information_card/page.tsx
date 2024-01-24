@@ -5,6 +5,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { MdDelete } from "react-icons/md";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -88,7 +100,13 @@ export function TrackingCard() {
     {
       accessorKey: "CreatedAt",
       header: t("CreatedAt"),
-      cell: ({ row }) => <div>{row.getValue("CreatedAt")!}</div>,
+      cell: ({ row }) => {
+        const isoTimestamp = row.getValue("CreatedAt") as string;
+        const dateObject = new Date(isoTimestamp);
+        const formattedDate = dateObject.toLocaleString();
+
+        return <div>{formattedDate}</div>;
+      },
       enableGlobalFilter: true,
     },
 
@@ -184,7 +202,7 @@ export function TrackingCard() {
             </Tooltip>
           </TooltipProvider>
 
-          <TooltipProvider>
+          {/* <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -205,21 +223,59 @@ export function TrackingCard() {
                 <p>Edit</p>
               </TooltipContent>
             </Tooltip>
-          </TooltipProvider>
+          </TooltipProvider> */}
 
-          <TooltipProvider>
+          {/* <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                {/* <Button variant="outline" className="border-none">
-                  <MdDelete />
-                </Button> */}
-                <DeleteButton trackingData={row.getValue("id")} />
+
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="outline" className="border-none">
+                      <MdDelete />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete the data.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={async () => {
+                          const access_token =
+                            localStorage.getItem("access_token");
+                          const deleting = await axios.post(
+                            `${process.env.NEXT_PUBLIC_BASE_URL}/devices/deleteDeviceById`,
+                            { device_id: row.getValue("id") },
+                            {
+                              headers: {
+                                Authorization: `Bearer ${access_token}`,
+                                "Content-Type": "application/json",
+                              },
+                            }
+                          );
+
+                          console.log("Deletion successful");
+                        }}
+                      >
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Delete</p>
               </TooltipContent>
             </Tooltip>
-          </TooltipProvider>
+          </TooltipProvider> */}
         </div>
       ),
       enableGlobalFilter: true,
@@ -350,7 +406,7 @@ export function TrackingCard() {
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell className="text-center" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
