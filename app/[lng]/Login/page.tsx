@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
 import {
   Card,
   CardContent,
@@ -11,26 +12,53 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useTranslation } from "@/app/i18n/client";
-import { authenticate } from "@/app/lib/actions";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useFormState } from "react-dom";
 export default function LoginPage() {
-  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users/login`,
+        {
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            // Authorization: `Bearer ${access_token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    const loginData = {
-      email,
-      password,
-      redirectTo: "Device_registration",
-    };
-    const pathname = usePathname();
-    const lng = pathname.split("/")[1];
-    const { t } = useTranslation(lng, "navbar");
+      const { status, success, access_token, body } = response.data;
+
+      if (status === 200 && success) {
+        // Login successful
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem(
+          "user_info",
+          `
+          ${body.first_name}  ${body.last_name}`
+        );
+
+        // Redirect to another page if needed
+        router.push("/Device_registration");
+      } else {
+        // Handle login failure
+        setErrorMessage("Login failed. Please check your credentials.");
+      }
+    } catch (error) {
+      // Handle other errors (network, server, etc.)
+      console.error("Error during login:", error);
+      setErrorMessage("Login failed. Please check your credentials.");
+    }
   };
   return (
     <div className="flex items-center justify-center h-screen">
@@ -41,7 +69,7 @@ export default function LoginPage() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <form action={dispatch} className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-3">
             <div className="grid w-full items-center gap-4">
               <div className="relative flex flex-col space-y-1.5">
                 <Label

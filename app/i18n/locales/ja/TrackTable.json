@@ -11,5 +11,6 @@
     "Edit": "編集",
     "Delete": "削除",
     "Report": "レポート",
-    "pType": "{{processingType}}"
+    "pType": "{{processingType}}",
+    "NoResults": "追跡記録が見つかりませんでした"
   }

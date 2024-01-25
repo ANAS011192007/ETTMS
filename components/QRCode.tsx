@@ -11,7 +11,6 @@ import { Input } from "./ui/input";
 function QRCodePage({ Page, trackId }: { Page: string; trackId?: string }) {
   const [data, setData] = useState("No result");
   const [showQRReader, setShowQRReader] = useState(false);
-
   const router = useRouter();
   const { ref } = useZxing({
     onDecodeResult(result) {

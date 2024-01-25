@@ -1,13 +1,12 @@
-import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
 import { dir } from "i18next";
 import type { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import "../globals.css";
 import { languages } from "../i18n/settings";
 import NavbarPage from "./navbar/page";
 import SidebarPage from "./sidebar/page";
+import LoginPage from "./Login/page";
 // const languages = ["en", "ja"];
 const inter = Inter({ subsets: ["latin"] });
 export async function generateStaticParams() {
@@ -27,24 +26,18 @@ export default async function RootLayout({
   children,
   params: { lng },
 }: RootLayoutProps) {
-  const session = await auth();
-  console.log(session);
   return (
     <html lang={lng} dir={dir(lng)}>
       <body className={inter.className}>
-        {session ? (
-          <div className="flex flex-col h-screen">
-            <div className="flex">
-              <SidebarPage params={{ lng }} />
-              <div className="flex-1 ">
-                <NavbarPage params={{ lng }} />
-                <SessionProvider>{children}</SessionProvider>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div>{children}</div>
-        )}
+        {/* <div className="flex flex-col h-screen">
+          <div className="flex"> */}
+        {/* <SidebarPage /> */}
+        {/* <div className="flex-1 "> */}
+        {/* <NavbarPage params={{ lng }} /> */}
+        {children}
+        {/* </div> */}
+        {/* </div>
+        </div> */}
         <Toaster />
       </body>
     </html>

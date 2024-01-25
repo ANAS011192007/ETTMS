@@ -1,44 +1,45 @@
 "use client";
-import { auth } from "@/auth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { HiOutlineDeviceTablet } from "react-icons/hi2";
 import { MdShowChart } from "react-icons/md";
 import { TbDeviceDesktopSearch, TbLogout2 } from "react-icons/tb";
 import { TfiAgenda } from "react-icons/tfi";
 import { useTranslation } from "../../i18n/client";
 
-const SidebarPage = ({ params: { lng } }: { params: { lng: string } }) => {
+const SidebarPage = () => {
   let session;
-  const { t } = useTranslation(lng, "sidebar");
   const pathname = usePathname();
+  const lng = pathname.split("/")[1];
+  const { t } = useTranslation(lng, "sidebar");
   console.log(pathname);
+  let accessToken;
+  // const fetchData = async () => {
+  //   try {
+  //     accessToken.current = localStorage.getItem("access_token")!;
+  //     console.log("navbar", accessToken);
+  //     console.log(accessToken);
+  //   } catch (error: any) {}
+  // };
 
-  const fetchData = async () => {
-    try {
-      session = await auth();
-      console.log(session);
-    } catch (error) {
-      console.error("Error fetching session data:", error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchDataAndInitialize = async () => {
-      await fetchData();
-    };
-
-    fetchDataAndInitialize();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+  // if (!accessToken.current) {
+  //   return null;
+  // }
+  if (typeof localStorage !== "undefined") {
+    accessToken = localStorage.getItem("access_token");
+  }
   return (
     <div className="flex flex-col items-center min-h-screen w-1/3 p-2 text-left border-x-2 sm:w-1/5">
-      <h1 className="text-slate-600 text-xl font-bold mt-10 mb-16 ">ETTMS</h1>
+      <h1 className="text-slate-600 text-xl font-bold mt-10 mb-16">ETTMS</h1>
       <div className="ml-4">
-        <Link href="/Device_registration">
+        <Link href={`/${lng}/Device_registration`}>
           <div className="mb-4 flex items-center text-start">
             <HiOutlineDeviceTablet className="text-xl" />
-            <p
+            <div
               className={`${
                 pathname === `/${lng}/Device_registration` ||
                 pathname === `/${lng}/Device_registration/form`
@@ -47,13 +48,13 @@ const SidebarPage = ({ params: { lng } }: { params: { lng: string } }) => {
               } text-slate-600 ml-1`}
             >
               {t!("Device Registration")}
-            </p>
+            </div>
           </div>
         </Link>
-        <Link href="/Device_Scan">
+        <Link href={`/${lng}/Device_Scan`}>
           <div className="mb-4 flex items-center text-start">
             <TbDeviceDesktopSearch className="text-xl" />
-            <p
+            <div
               className={`${
                 pathname === `/${lng}/Device_Scan` ||
                 pathname === `/${lng}/Show_Device_Information`
@@ -62,13 +63,13 @@ const SidebarPage = ({ params: { lng } }: { params: { lng: string } }) => {
               } text-slate-600 ml-1`}
             >
               {t!("Show Device Information")}
-            </p>
+            </div>
           </div>
         </Link>
-        <Link href="/Tracking_registration">
+        <Link href={`/${lng}/Tracking_registration`}>
           <div className="mb-4 flex items-center text-start">
             <MdShowChart className="bg-slate-700 text-white text-l rounded " />
-            <p
+            <div
               className={`${
                 pathname === `/${lng}/Tracking_registration` ||
                 pathname === `/${lng}/Tracking_registration/form`
@@ -77,13 +78,13 @@ const SidebarPage = ({ params: { lng } }: { params: { lng: string } }) => {
               } text-slate-600 ml-1`}
             >
               {t!("Tracking Registration")}
-            </p>
+            </div>
           </div>
         </Link>
-        <Link href="/Track_Scan">
+        <Link href={`/${lng}/Track_Scan`}>
           <div className="mb-4 flex items-center text-start">
             <TfiAgenda className="" />
-            <p
+            <div
               className={`${
                 pathname === `/${lng}/Track_Scan` ||
                 pathname === `/${lng}/Show_Tracking_Information`
@@ -92,13 +93,15 @@ const SidebarPage = ({ params: { lng } }: { params: { lng: string } }) => {
               } text-slate-600 ml-1`}
             >
               {t!("Show Tracking information")}
-            </p>
+            </div>
           </div>
         </Link>
-        <Link href="Logout">
+        <Link href={`/${lng}/Logout`}>
           <div className="flex items-center text-start">
             <TbLogout2 className="text-l" />
-            <p className="text-slate-600 font-medium ml-1">{t!("Logout")}</p>
+            <div className="text-slate-600 font-medium ml-1">
+              {t!("Logout")}
+            </div>
           </div>
         </Link>
       </div>

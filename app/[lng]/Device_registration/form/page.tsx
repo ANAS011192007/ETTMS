@@ -30,6 +30,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { useTranslation } from "../../../i18n/client";
 import { useDeviceRegistrationStore } from "../../../store";
+import NavbarPage from "../../navbar/page";
+import SidebarPage from "../../sidebar/page";
 const DeviceRegistrationFormPage = () => {
   const pathname = usePathname();
   const lng = pathname.split("/")[1];
@@ -70,6 +72,7 @@ const DeviceRegistrationFormPage = () => {
   const handleSaveChanges = async () => {
     try {
       const access_token = localStorage.getItem("access_token");
+      console.log(access_token);
       const createdAt = new Date();
       const tid = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/tracks/showTrackIdByTag`,
@@ -81,6 +84,7 @@ const DeviceRegistrationFormPage = () => {
           },
         }
       );
+      console.log(tid.data);
       const trackid = tid.data.body.track_id;
       const requestData = {
         name: Name,
@@ -117,197 +121,210 @@ const DeviceRegistrationFormPage = () => {
   };
   const router = useRouter();
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col items-center mt-16 ">
-      <div className="mb-8 text-slate-600 text-2xl font-bold">{t("title")}</div>
-
-      <div className="mb-4 text-black text-2xl font-bold">
-        {t("DeviceID", { id: deviceId })}
-      </div>
-
-      <div className="flex flex-col items-center">
-        <div className="mb-4">
-          <Input
-            name="deviceName"
-            value={Name}
-            onChange={(e) => setName(e.target.value)}
-            className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
-            placeholder={t("EnterDeviceName")}
-          />
-          <Input
-            name="deviceSerial"
-            value={Serial}
-            onChange={(e) => setSerial(e.target.value)}
-            className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
-            placeholder={t("EnterDeviceSerial")}
-          />
-          <Input
-            name="deviceModel"
-            value={Model}
-            onChange={(e) => setModel(e.target.value)}
-            className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
-            placeholder={t("EnterDeviceModel")}
-          />
-          <Select onValueChange={(value) => setType(value)}>
-            <SelectTrigger className="w-96 font-bold rounded-xl mb-4 border-slate-500">
-              <SelectValue placeholder={t("SelectAnItem")} />
-            </SelectTrigger>
-            <SelectContent className="">
-              <SelectGroup>
-                <SelectItem value="laptop" className="text-black">
-                  {t("Laptop")}
-                </SelectItem>
-                <SelectItem value="tablet" className="text-black">
-                  {t("Tablet")}
-                </SelectItem>
-                <SelectItem value="mobile" className="text-black">
-                  {t("Mobile")}
-                </SelectItem>
-                <SelectItem value="hdd" className="text-black">
-                  {t("HDD")}
-                </SelectItem>
-                <SelectItem value="sdd" className="text-black">
-                  {t("SSD")}
-                </SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          <Input
-            name="deviceManufacturer"
-            value={Manufacturer}
-            onChange={(e) => setManufacturer(e.target.value)}
-            className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
-            placeholder={t("EnterDeviceManufacturer")}
-          />
-          <Input
-            name="deviceSpecification"
-            value={Specification}
-            onChange={(e) => setSpecification(e.target.value)}
-            className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
-            placeholder={t("EnterDeviceSpecification")}
-          />
-        </div>
-      </div>
-      <div className="">
-        <Button
-          type="submit"
-          className="px-6 py-2 bg-slate-600 text-white font-bold text-lg rounded-xl cursor-pointer mr-2"
-        >
-          {t("Clear")}
-        </Button>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button
-              type="submit"
-              className="px-6 py-2 bg-slate-600 text-white font-bold text-lg rounded-xl cursor-pointer"
-            >
-              {t("Submit")}
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="">
-            <div className="p-8 flex flex-col justify-center min-h-auto">
-              <div className="flex flex-col items-center">
-                <div className="mb-4 text-black text-xl font-bold">
-                  {t("DeviceID", { id: deviceId })}
-                </div>
-                <div className="mb-8 text-slate-400 text-2xl font-bold">
-                  {t("DeviceRegistration")}
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4 py-4">
-                <div className="flex items-center gap-x-2 gap-y-4">
-                  <Label
-                    htmlFor="deviceName"
-                    className="text-left text-lg font-bold "
-                  >
-                    {t("Name")}
-                  </Label>
-                  <span>{Name}</span>
-                </div>
-                <div className="flex items-center gap-x-2 gap-y-4">
-                  <Label
-                    htmlFor="deviceSerial"
-                    className="text-left text-lg font-bold "
-                  >
-                    {t("Serial")}
-                  </Label>
-                  <span>{Serial}</span>
-                </div>
-                <div className="flex items-center gap-x-2 gap-y-4">
-                  <Label
-                    htmlFor="deviceModel"
-                    className="text-left text-lg font-bold "
-                  >
-                    {t("Model")}
-                  </Label>
-                  <span>{Model}</span>
-                </div>
-                <div className="flex items-center gap-x-2 gap-y-4">
-                  <Label
-                    htmlFor="deviceType"
-                    className="text-left text-lg font-bold "
-                  >
-                    {t("Type")}
-                  </Label>
-                  <span>{Type}</span>
-                </div>
-                <div className="flex items-center gap-x-2 gap-y-4">
-                  <Label
-                    htmlFor="deviceManufacturer"
-                    className="text-left text-lg font-bold "
-                  >
-                    {t("Manufacturer")}
-                  </Label>
-                  <span>{Manufacturer}</span>
-                </div>
-                <div className="flex items-center gap-x-2 gap-y-4">
-                  <Label
-                    htmlFor="deviceSpecification"
-                    className="text-left text-lg font-bold "
-                  >
-                    {t("Specification")}
-                  </Label>
-                  <span>{Specification}</span>
-                </div>
-              </div>
+    <div className="flex flex-col h-screen">
+      <div className="flex">
+        <SidebarPage />
+        <div className="flex-1 ">
+          <NavbarPage />
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col items-center mt-16 "
+          >
+            <div className="mb-8 text-slate-600 text-2xl font-bold">
+              {t("title")}
             </div>
 
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button className="px-6 py-2 bg-slate-600 text-white font-bold text-lg rounded-xl cursor-pointer mr-2">
-                  {t("Edit")}
-                </Button>
-              </DialogClose>
-              <AlertDialog>
-                <AlertDialogTrigger>
-                  <Button className="px-6 py-2 bg-slate-600 text-white text-lg rounded-xl font-bold cursor-pointer">
-                    {t("Confirm")}
+            <div className="mb-4 text-black text-2xl font-bold">
+              {t("DeviceID", { id: deviceId })}
+            </div>
+
+            <div className="flex flex-col items-center">
+              <div className="mb-4">
+                <Input
+                  name="deviceName"
+                  value={Name}
+                  onChange={(e) => setName(e.target.value)}
+                  className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
+                  placeholder={t("EnterDeviceName")}
+                />
+                <Input
+                  name="deviceSerial"
+                  value={Serial}
+                  onChange={(e) => setSerial(e.target.value)}
+                  className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
+                  placeholder={t("EnterDeviceSerial")}
+                />
+                <Input
+                  name="deviceModel"
+                  value={Model}
+                  onChange={(e) => setModel(e.target.value)}
+                  className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
+                  placeholder={t("EnterDeviceModel")}
+                />
+                <Select onValueChange={(value) => setType(value)}>
+                  <SelectTrigger className="w-96 font-bold rounded-xl mb-4 border-slate-500">
+                    <SelectValue placeholder={t("SelectAnItem")} />
+                  </SelectTrigger>
+                  <SelectContent className="">
+                    <SelectGroup>
+                      <SelectItem value="laptop" className="text-black">
+                        {t("Laptop")}
+                      </SelectItem>
+                      <SelectItem value="tablet" className="text-black">
+                        {t("Tablet")}
+                      </SelectItem>
+                      <SelectItem value="mobile" className="text-black">
+                        {t("Mobile")}
+                      </SelectItem>
+                      <SelectItem value="hdd" className="text-black">
+                        {t("HDD")}
+                      </SelectItem>
+                      <SelectItem value="sdd" className="text-black">
+                        {t("SSD")}
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <Input
+                  name="deviceManufacturer"
+                  value={Manufacturer}
+                  onChange={(e) => setManufacturer(e.target.value)}
+                  className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
+                  placeholder={t("EnterDeviceManufacturer")}
+                />
+                <Input
+                  name="deviceSpecification"
+                  value={Specification}
+                  onChange={(e) => setSpecification(e.target.value)}
+                  className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
+                  placeholder={t("EnterDeviceSpecification")}
+                />
+              </div>
+            </div>
+            <div className="">
+              <Button
+                type="submit"
+                className="px-6 py-2 bg-slate-600 text-white font-bold text-lg rounded-xl cursor-pointer mr-2"
+              >
+                {t("Clear")}
+              </Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    type="submit"
+                    className="px-6 py-2 bg-slate-600 text-white font-bold text-lg rounded-xl cursor-pointer"
+                  >
+                    {t("Submit")}
                   </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogDescription className="text-center font-bold text-xl text-black">
-                      {t("SuccessfullyRegisteredDevice")}
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <Button
-                      className="px-6 py-2 bg-slate-600 text-white text-lg rounded-lg cursor-pointer"
-                      onClick={() => {
-                        handleSaveChanges();
-                        router.push("/Device_registration");
-                      }}
-                    >
-                      {t("OK")}
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+                </DialogTrigger>
+                <DialogContent className="">
+                  <div className="p-8 flex flex-col justify-center min-h-auto">
+                    <div className="flex flex-col items-center">
+                      <div className="mb-4 text-black text-xl font-bold">
+                        {t("DeviceID", { id: deviceId })}
+                      </div>
+                      <div className="mb-8 text-slate-400 text-2xl font-bold">
+                        {t("DeviceRegistration")}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-4 py-4">
+                      <div className="flex items-center gap-x-2 gap-y-4">
+                        <Label
+                          htmlFor="deviceName"
+                          className="text-left text-lg font-bold "
+                        >
+                          {t("Name")}
+                        </Label>
+                        <span>{Name}</span>
+                      </div>
+                      <div className="flex items-center gap-x-2 gap-y-4">
+                        <Label
+                          htmlFor="deviceSerial"
+                          className="text-left text-lg font-bold "
+                        >
+                          {t("Serial")}
+                        </Label>
+                        <span>{Serial}</span>
+                      </div>
+                      <div className="flex items-center gap-x-2 gap-y-4">
+                        <Label
+                          htmlFor="deviceModel"
+                          className="text-left text-lg font-bold "
+                        >
+                          {t("Model")}
+                        </Label>
+                        <span>{Model}</span>
+                      </div>
+                      <div className="flex items-center gap-x-2 gap-y-4">
+                        <Label
+                          htmlFor="deviceType"
+                          className="text-left text-lg font-bold "
+                        >
+                          {t("Type")}
+                        </Label>
+                        <span>{Type}</span>
+                      </div>
+                      <div className="flex items-center gap-x-2 gap-y-4">
+                        <Label
+                          htmlFor="deviceManufacturer"
+                          className="text-left text-lg font-bold "
+                        >
+                          {t("Manufacturer")}
+                        </Label>
+                        <span>{Manufacturer}</span>
+                      </div>
+                      <div className="flex items-center gap-x-2 gap-y-4">
+                        <Label
+                          htmlFor="deviceSpecification"
+                          className="text-left text-lg font-bold "
+                        >
+                          {t("Specification")}
+                        </Label>
+                        <span>{Specification}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button className="px-6 py-2 bg-slate-600 text-white font-bold text-lg rounded-xl cursor-pointer mr-2">
+                        {t("Edit")}
+                      </Button>
+                    </DialogClose>
+                    <AlertDialog>
+                      <AlertDialogTrigger>
+                        <Button className="px-6 py-2 bg-slate-600 text-white text-lg rounded-xl font-bold cursor-pointer">
+                          {t("Confirm")}
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogDescription className="text-center font-bold text-xl text-black">
+                            {t("SuccessfullyRegisteredDevice")}
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <Button
+                            className="px-6 py-2 bg-slate-600 text-white text-lg rounded-lg cursor-pointer"
+                            onClick={() => {
+                              handleSaveChanges();
+                              router.push("/Device_registration");
+                            }}
+                          >
+                            {t("OK")}
+                          </Button>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </form>
+        </div>
       </div>
-    </form>
+    </div>
   );
 };
 

@@ -86,35 +86,43 @@ const TrackingCard = ({ trackId }: { trackId: string }) => {
               <TableHead>{t("ToolUsed")}</TableHead>
               <TableHead>{t("RecordedBy")}</TableHead>
               <TableHead>{t("Image")}</TableHead>
-              <TableHead>{t("Action")}</TableHead>
+              {/* <TableHead>{t("Action")}</TableHead> */}
             </TableRow>
           </TableHeader>
           <TableBody className="text-center">
-            {dataList.current!.map((data: any) => (
-              <TableRow className="" key={data["id"]}>
-                <TableCell className="font-medium">
-                  {t("pType", { processingType: data["Processing Type"] })}
-                </TableCell>
-                <TableCell className="font-medium">
-                  {data["Created at"]?.slice(0, 19)}
-                </TableCell>
-                <TableCell>{data.Location}</TableCell>
-                <TableCell>{data["Tool Used"]}</TableCell>
-                <TableCell>{data["Recorded By"]}</TableCell>
-                <TableCell>
-                  <Image
-                    className="rounded-sm border border-black"
-                    src={`${process.env.NEXT_PUBLIC_BASE_URL}/${data["Image"]}`}
-                    alt="image"
-                    height={100}
-                    width={100}
-                  />
-                </TableCell>
-                <TableCell className="flex justify-end flex-col ">
+            {dataList.current!.length ? (
+              dataList.current!.map((data: any) => (
+                <TableRow className="" key={data["id"]}>
+                  <TableCell className="font-medium">
+                    {t("pType", { processingType: data["Processing Type"] })}
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {data["Created at"]?.slice(0, 19)}
+                  </TableCell>
+                  <TableCell>{data.Location}</TableCell>
+                  <TableCell>{data["Tool Used"]}</TableCell>
+                  <TableCell>{data["Recorded By"]}</TableCell>
+                  <TableCell>
+                    <Image
+                      className="rounded-sm border border-black"
+                      src={`${process.env.NEXT_PUBLIC_BASE_URL}/${data["Image"]}`}
+                      alt="image"
+                      height={100}
+                      width={100}
+                    />
+                  </TableCell>
+                  {/* <TableCell className="flex justify-end flex-col ">
                   <DeleteButton trackingData={data} buttonName={t("Delete")} />
+                </TableCell> */}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6} className="h-24 text-center">
+                  {t("NoResults")}
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </div>

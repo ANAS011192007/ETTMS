@@ -11,5 +11,6 @@
     "Edit": "Edit",
     "Delete": "Delete",
     "Report": "Report",
-    "pType": "{{processingType}}"
+    "pType": "{{processingType}}",
+    "NoResults": "No Tracking Record found"
 }
