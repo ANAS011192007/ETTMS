@@ -563,7 +563,9 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
               </div>
             </div>
             <div className="w-[37%] ">
-              <div className="text-slate-500">{t("DeviceDetails")}</div>
+              <div className="text-slate-500 font-semibold mb-1">
+                {t("DeviceDetails")}
+              </div>
               <div className="flex">
                 <div className="w-1/2 xl:w-1/3 text-slate-500">
                   {t("DeviceType")}
@@ -610,7 +612,9 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
             </div>
             <div className="w-[28%] flex flex-row ">
               <div className="w-[70%] flex-col">
-                <div className="text-slate-500">{t("RecordSummary")}</div>
+                <div className="text-slate-500 font-semibold mb-1">
+                  {t("RecordSummary")}
+                </div>
                 <div className="flex">
                   <div className="w-3/4 text-slate-500">{t("Total")}</div>
                   <div className="w-1/4 ">
@@ -620,7 +624,12 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
 
                 <div className="flex flex-col xl:flex-row">
                   <div className="w-full xl:w-3/4 text-slate-500">
-                    <FaCircle className="text-blue-900 text-xs inline" />
+                    <FaCircle
+                      style={{
+                        color: "green",
+                      }}
+                      className=" text-xs inline"
+                    />
                     {t("Completed")}
                   </div>
                   <div className="w-full xl:w-1/4">
@@ -629,7 +638,12 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
                 </div>
                 <div className="flex flex-col xl:flex-row">
                   <div className="w-full xl:w-3/4 text-slate-500">
-                    <FaCircle className="text-slate-500 text-xs inline" />
+                    <FaCircle
+                      style={{
+                        color: "blue",
+                      }}
+                      className="text-xs inline"
+                    />
                     {t("Remaining")}
                   </div>
                   <div className="w-full xl:w-1/4">

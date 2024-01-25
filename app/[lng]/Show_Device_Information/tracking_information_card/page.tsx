@@ -52,9 +52,12 @@ import { MdShowChart } from "react-icons/md";
 import { TfiAgenda } from "react-icons/tfi";
 import { DataTablePagination } from "./DataTablePagination";
 import { DeleteButton } from "./DeleteTrackingInfo";
+import Progressbar from "../information_card/Progressbar";
+import { toast } from "sonner";
 
 export function TrackingCard() {
   const device_tags = React.useRef([]);
+  const info: any = React.useRef(null);
   const pathname = usePathname();
   const lng = pathname.split("/")[1];
   const searchparams = useSearchParams();
@@ -78,6 +81,8 @@ export function TrackingCard() {
     Manufacturer: string;
     Specification: string;
     CreatedAt?: string;
+    completed: string;
+    total: string;
     id: string;
   };
 
@@ -88,6 +93,18 @@ export function TrackingCard() {
     {
       accessorKey: "id",
       header: t("ID"),
+      cell: ({ row }) => <></>,
+      enableGlobalFilter: true,
+    },
+    {
+      accessorKey: "completed",
+      header: t("Completed"),
+      cell: ({ row }) => <></>,
+      enableGlobalFilter: true,
+    },
+    {
+      accessorKey: "total",
+      header: t("Total"),
       cell: ({ row }) => <></>,
       enableGlobalFilter: true,
     },
@@ -128,11 +145,12 @@ export function TrackingCard() {
       header: t("Progress"),
       cell: ({ row }) => (
         <div>
-          <ProgressBar
-            isLabelVisible={false}
-            className="w-20"
-            bgColor="#0D47A1"
-            completed={row.getValue("Progress")}
+          <Progressbar
+            completed={
+              (parseFloat(row.getValue("completed")) /
+                parseFloat(row.getValue("total"))) *
+              100
+            }
           />
         </div>
       ),
@@ -142,12 +160,13 @@ export function TrackingCard() {
       accessorKey: "Status",
       header: t("Status"),
       cell: ({ row }) => (
-        <Badge
-          variant="outline"
-          className="bg-blue-900 text-white w-24 text-center flex items-center justify-center"
-        >
-          {row.getValue("Status")}
-        </Badge>
+        // <Badge
+        //   variant="outline"
+        //   className="bg-blue-900 text-white w-24 text-center flex items-center justify-center"
+        // >
+        //   {row.getValue("Status")}
+        // </Badge>
+        <div>{row.getValue("Status")}</div>
       ),
       enableGlobalFilter: true,
     },
@@ -162,12 +181,32 @@ export function TrackingCard() {
                 <Button
                   variant="outline"
                   className="border-none"
-                  onClick={() => {
-                    const params = new URLSearchParams();
-                    // params.append("track_tag", row.getValue("device_tag"));
-                    params.append("track_id", row.getValue("device_tag"));
-                    const query = params.size ? "?" + params.toString() : "";
-                    router.push("Tracking_registration/form" + query);
+                  onClick={async () => {
+                    try {
+                      const access_token = localStorage.getItem("access_token");
+                      const processingres = await axios.post(
+                        `${process.env.NEXT_PUBLIC_BASE_URL}/devices/findCurrentProcessingTypeOfFollowingDevice`,
+                        { device_id: row.getValue("id") },
+                        {
+                          headers: {
+                            Authorization: `Bearer ${access_token}`,
+                            "Content-Type": "application/json",
+                          },
+                        }
+                      );
+                      console.log(processingres);
+                      if (processingres.data.status === 200) {
+                        const params = new URLSearchParams();
+                        // params.append("track_tag", row.getValue("device_tag"));
+                        params.append("track_id", row.getValue("device_tag"));
+                        const query = params.size
+                          ? "?" + params.toString()
+                          : "";
+                        router.push("Tracking_registration/form" + query);
+                      }
+                    } catch {
+                      toast.error("All Processing Types are full");
+                    }
                   }}
                 >
                   <MdShowChart className="bg-slate-700 text-white rounded" />
@@ -326,6 +365,7 @@ export function TrackingCard() {
           },
         }
       );
+      info.current = infos.data.body[0];
       device_tags.current = infos.data.body.map((device: any) => ({
         device_tag: device.device_tag,
         Name: device.device_model.name,
@@ -336,6 +376,8 @@ export function TrackingCard() {
         Specification: device.device_model.spacifications,
         CreatedAt: device.createdAt,
         id: device._id,
+        completed: device.record_summary.completed,
+        total: device.record_summary.total,
         Status: device.status,
       }));
       console.log(device_tags.current);
@@ -351,6 +393,14 @@ export function TrackingCard() {
     const idColumn = table.getColumn("id");
     if (idColumn) {
       idColumn.toggleVisibility(false);
+    }
+    const completedColumn = table.getColumn("completed");
+    if (completedColumn) {
+      completedColumn.toggleVisibility(false);
+    }
+    const totalColumn = table.getColumn("total");
+    if (totalColumn) {
+      totalColumn.toggleVisibility(false);
     }
     fetchData();
   }, []);

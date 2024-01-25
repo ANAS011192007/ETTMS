@@ -11,8 +11,8 @@
       "CreatedDate": "Created Date",
       "Duration": "Duration",
       "Deadline": "Deadline",
-      "DeviceSummary": "Device's Summary",
-      "RecordSummary": "Record's Summary",
+      "DeviceSummary": "Device Summary",
+      "RecordSummary": "Record Summary",
       "Total": "Total",
       "Completed": "Completed",
       "InProgress": "In Progress",
@@ -24,7 +24,7 @@
       "Manufacturer": "Manufacturer",
       "Specification": "Specification",
       "CSVFile": "CSV FILE",
-      "QRCode": "QR CODE"
+      "QRCode": "Device QR CODE"
 
   }
   

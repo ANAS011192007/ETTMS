@@ -347,7 +347,7 @@ const TrackRegistrationFormPage = () => {
                       <AlertDialogContent>
                         <AlertDialogHeader>
                           <AlertDialogTitle className="text-center font-bold text-xl text-black">
-                            {t("SuccessfullyRegisteredDevice")}
+                            {t("SuccessfullyRegisteredTrack")}
                           </AlertDialogTitle>
                         </AlertDialogHeader>
                         <AlertDialogFooter>

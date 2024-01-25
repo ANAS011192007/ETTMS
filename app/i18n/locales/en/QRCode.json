@@ -1,16 +1,19 @@
 {
     "DeviceQR": "Scan QR Code to Register Device",
-    "TrackQR": "Scan QR Code to Register Track",
+    "DeviceRegistration": "Device Registration",
+    "TrackingRegistration": "Tracking Registration",
+    "DeviceInformation": "Device Information",
+    "TrackingInformation": "Tracking Information",
+    "TrackQR": "Scan QR Code to Register Tracking",
     "DeviceQRScan": "Scan QR Code to View Device Information",
-    "TrackQRScan": "Scan QR Code to View Track Information",
+    "TrackQRScan": "Scan QR Code to View Tracking Information",
     "DeviceInput": "Enter Track ID to Register Device",
-    "TrackInput": "Enter Device ID to Register Track",
+    "TrackInput": "Enter Device ID to Register Tracking",
     "DeviceInputScan": "Enter Track ID to View Device Information",
-    "TrackInputScan": "Enter Device ID to View Track Information",
+    "TrackInputScan": "Enter Device ID to View Tracking Information",
     "Stop":"Stop Scan",
     "Scan": "Scan Here",
     "Submit":"Submit",
     "Deviceplaceholder":"Enter Device ID",
     "Trackplaceholder":"Enter Track ID"
-
 }

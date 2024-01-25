@@ -7,6 +7,7 @@ import { useZxing } from "react-zxing";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import axios from "axios";
 
 function QRCodePage({ Page, trackId }: { Page: string; trackId?: string }) {
   const [data, setData] = useState("No result");
@@ -30,6 +31,7 @@ function QRCodePage({ Page, trackId }: { Page: string; trackId?: string }) {
           if (result.getText().length >= 19) {
             if (result.getText()) params.append("track_id", result.getText());
             const query = params.size ? "?" + params.toString() : "";
+
             router.push(`Tracking_registration/form${query}`);
           } else if (result.getText().length <= 17) {
             toast.error("Not a valid Device ID");
@@ -54,7 +56,7 @@ function QRCodePage({ Page, trackId }: { Page: string; trackId?: string }) {
   return (
     <div>
       <div className="text-center p-4 text-2xl font-bold">
-        {Page == "Device" ? "Device Registration" : "Tracking Registration"}
+        {Page == "Device" ? t("DeviceRegistration") : t("TrackingRegistration")}
       </div>
       <div className="flex justify-center">
         <div className="flex-col items-center p-16">
@@ -117,7 +119,7 @@ function QRCodePage({ Page, trackId }: { Page: string; trackId?: string }) {
             />
             <Button
               className="mb- px-6 py-2 bg-slate-600 text-white text-lg rounded-3xl cursor-pointer"
-              onClick={() => {
+              onClick={async () => {
                 const params = new URLSearchParams();
                 if (data !== "No Result") {
                   if (Page === "Device") {
@@ -130,12 +132,43 @@ function QRCodePage({ Page, trackId }: { Page: string; trackId?: string }) {
                     }
                   } else {
                     if (data.length >= 19) {
-                      if (data) params.append("track_id", data);
+                      try {
+                        if (data) params.append("track_id", data);
 
-                      const query = params.size ? "?" + params.toString() : "";
-                      router.push("Tracking_registration/form" + query);
-                    } else {
-                      toast.error("Not a valid Device ID");
+                        const query = params.size
+                          ? "?" + params.toString()
+                          : "";
+                        const access_token =
+                          localStorage.getItem("access_token");
+                        const deviceidres = await axios.post(
+                          `${process.env.NEXT_PUBLIC_BASE_URL}/devices/showDeviceDetailsByDevicetag`,
+                          { device_tag: data },
+                          {
+                            headers: {
+                              Authorization: `Bearer ${access_token}`,
+                              "Content-Type": "application/json",
+                            },
+                          }
+                        );
+                        // console.log(deviceid.current);
+                        const processingres = await axios.post(
+                          `${process.env.NEXT_PUBLIC_BASE_URL}/devices/findCurrentProcessingTypeOfFollowingDevice`,
+                          { device_id: deviceidres.data.body._id },
+                          {
+                            headers: {
+                              Authorization: `Bearer ${access_token}`,
+                              "Content-Type": "application/json",
+                            },
+                          }
+                        );
+                        router.push("Tracking_registration/form" + query);
+                      } catch (error: any) {
+                        if (error.response && error.response.status === 409) {
+                          toast.error("All Processing Types are full");
+                        } else {
+                          toast.error("Device not registered");
+                        }
+                      }
                     }
                   }
                 }

@@ -16,6 +16,6 @@
     "Submit": "提出",
     "TrackID": "トラックID:{{id}}",
     "TrackRegistration": "トラッキング登録",
-    "SuccessfullyRegisteredDevice": "デバイスの登録に成功しました",
+    "SuccessfullyRegisteredTrack": "トラッキングの登録に成功しました",
     "OK": "OK"
   }

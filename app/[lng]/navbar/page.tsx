@@ -24,26 +24,12 @@ import { useTranslation } from "../../i18n/client";
 import users from "@/data/db.json";
 import { useEffect, useRef } from "react";
 const NavbarPage = () => {
+  let user;
   const pathname = usePathname();
   const lng = pathname.split("/")[1];
   const { t } = useTranslation(lng, "navbar");
 
   const router = useRouter();
-  let accessToken, user;
-  // const fetchData = async () => {
-  //   try {
-  //     accessToken.current = localStorage.getItem("access_token")!;
-  //     console.log("navbar", accessToken);
-  //     console.log(accessToken);
-  //   } catch (error: any) {}
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-  // if (!accessToken.current) {
-  //   return null;
-  // }
   const handleLanguageChange = (selectedLanguage: string) => {
     if (typeof window !== "undefined") {
       const currentUrl = window.location.href;
@@ -58,15 +44,13 @@ const NavbarPage = () => {
     }
   };
 
-  const getUserDetails = () => {
-    return localStorage.getItem("user_info");
+  const getUserDetails = async () => {
+    user = localStorage.getItem("user_info");
   };
 
   // Call the function to get user details
   const userDetails = getUserDetails();
-  // if (typeof localStorage !== "undefined") {
-  //   user = localStorage.getItem("user_info");
-  // }
+
   return (
     <nav className="p-2 flex items-center justify-end border-b">
       <div className="flex items-center justify-center">
@@ -82,15 +66,15 @@ const NavbarPage = () => {
             <Select onValueChange={(value) => handleLanguageChange(value)}>
               <SelectTrigger className="border-none">
                 <SelectValue
-                  placeholder={lng === "ja" ? "日本語" : "English"}
+                  placeholder={lng === "ja" ? "Japanese" : "English"}
                   className=""
                 />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>{t("Language")}</SelectLabel>
-                  <SelectItem value="en">{t("English")}</SelectItem>
-                  <SelectItem value="ja">{t("Japanese")}</SelectItem>
+                  <SelectItem value="en">English</SelectItem>
+                  <SelectItem value="ja">Japanese</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -114,9 +98,10 @@ const NavbarPage = () => {
               <div className="text-blue-900 font-bold">
                 {/* {userDetails
                   ? `${userDetails.firstName} ${userDetails.lastName}` */}
-                {/* {user} */}
+                {user}
+                {/* "hello" */}
                 {/* hello */}
-                {userDetails}
+                {/* {userDetails} */}
               </div>
               <div className="text-slate-500 text-xs">Ultra-X Asia Pacific</div>
             </div>

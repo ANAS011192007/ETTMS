@@ -168,7 +168,7 @@ const InfoCard = () => {
           </div>
           <div className="flex flex-row justify-between text-xs xl:text-sm">
             <div className="flex w-[65%]">
-              <div className="w-1/2">
+              <div className="w-[50%]">
                 <div className="flex">
                   <div className="w-1/3 text-slate-500">{t("Status")}</div>
                   <div className="w-2/3 text-orange-200">
@@ -206,45 +206,60 @@ const InfoCard = () => {
                 </div>
               </div>
 
-              <div className="w-1/2 flex flex-row justify-end">
+              <div className="w-[50%] flex flex-row justify-end">
                 <div className="flex-col">
-                  <div className="text-slate-500 2xl:mb-1">
+                  <div className="text-slate-500 2xl:mb-1 font-semibold">
                     {t("DeviceSummary")}
                   </div>
                   <div className="flex 2xl:mb-1">
-                    <div className="w-3/4 text-slate-500 2xl:mb-1">
+                    <div className="w-4/5 text-slate-500 2xl:mb-1">
                       {t("Total")}
                     </div>
-                    <div className="w-1/4 text-center">
+                    <div className="w-1/5 text-center">
                       {record_summary.current?.total}
                     </div>
                   </div>
                   <div className="flex 2xl:mb-1">
-                    <div className="w-3/4 text-slate-500">
-                      <FaCircle className="text-blue-900 inline mr-0.5" />
+                    <div className="w-4/5 text-slate-500">
+                      <FaCircle
+                        style={{
+                          color: "green",
+                        }}
+                        className=" inline mr-0.5"
+                      />
                       {t("Completed")}
                     </div>
-                    <div className="w-1/4 text-center">
+                    <div className="w-1/5 text-center">
                       {record_summary.current?.completed}
                     </div>
                   </div>
 
                   <div className="flex 2xl:mb-1">
-                    <div className="w-3/4 text-slate-500">
-                      <FaCircle className="text-slate-500 inline mr-0.5" />
+                    <div className="w-4/5 text-slate-500">
+                      <FaCircle
+                        style={{
+                          color: "orange",
+                        }}
+                        className=" inline mr-0.5"
+                      />
                       {t("InProgress")}
                     </div>
-                    <div className="w-1/4 text-center">
+                    <div className="w-1/5 text-center">
                       {record_summary.current?.inProgress}
                     </div>
                   </div>
 
                   <div className="flex 2xl:mb-1">
-                    <div className="w-3/4 text-slate-500">
-                      <FaCircle className="text-slate-200 inline mr-0.5" />
+                    <div className="w-4/5 text-slate-500">
+                      <FaCircle
+                        style={{
+                          color: "blue",
+                        }}
+                        className=" inline mr-0.5"
+                      />
                       {t("Remaining")}
                     </div>
-                    <div className="w-1/4 text-center">
+                    <div className="w-1/5 text-center">
                       {record_summary.current?.remaining}
                     </div>
                   </div>
@@ -273,32 +288,71 @@ const InfoCard = () => {
             <div className="flex w-[35%] justify-end">
               <div className="flex flex-row justify-end">
                 <div className="flex-col">
-                  <div className="text-slate-500 2xl:mb-1">
+                  <div className="text-slate-500 2xl:mb-1 font-semibold">
                     {t("RecordSummary")}
                   </div>
                   <div className="flex">
-                    <div className="w-3/4 text-slate-500 2xl:mb-1">
+                    <div className="w-4/5 text-slate-500 2xl:mb-1">
                       {t("Total")}
                     </div>
-                    <div className="w-1/4 text-center">
+                    <div className="w-1/5 text-center">
                       {info.current?.record_summary.total}
                     </div>
                   </div>
-                  <div className="flex items-center 2xl:mb-1">
+                  {/* <div className="flex items-center 2xl:mb-1">
                     <div className="w-3/4 flex items-center text-slate-500">
-                      <FaCircle className="text-blue-900 mr-0.5" />
+                      <FaCircle
+                        style={{
+                          color: "green",
+                        }}
+                        className="inline-block mr-0.5 h-4 w-4" // Adjust the height and width as needed
+                      />
                       {t("Completed")}
                     </div>
                     <div className="w-1/4 text-center">
                       {info.current?.record_summary.completed}
                     </div>
                   </div>
-                  <div className="flex items-center text-slate-500 2xl:mb-1">
-                    <div className="w-3/4 flex items-center">
-                      <FaCircle className="text-slate-500 mr-0.5" />
+                  <div className="flex items-center  2xl:mb-1">
+                    <div className="w-3/4 flex items-center text-slate-500">
+                      <FaCircle
+                        style={{
+                          color: "blue",
+                        }}
+                        className="inline-block mr-0.5 h-4 w-4" // Adjust the height and width as needed
+                      />
                       {t("Remaining")}
                     </div>
                     <div className="w-1/4 text-center">
+                      {info.current?.record_summary.remaining}
+                    </div>
+                  </div> */}
+                  <div className="flex 2xl:mb-1">
+                    <div className="w-4/5 text-slate-500">
+                      <FaCircle
+                        style={{
+                          color: "green",
+                        }}
+                        className=" inline mr-0.5"
+                      />
+                      {t("Completed")}
+                    </div>
+                    <div className="w-1/5 text-center">
+                      {info.current?.record_summary.completed}
+                    </div>
+                  </div>
+
+                  <div className="flex 2xl:mb-1">
+                    <div className="w-4/5 text-slate-500">
+                      <FaCircle
+                        style={{
+                          color: "blue",
+                        }}
+                        className=" inline mr-0.5"
+                      />
+                      {t("Remaining")}
+                    </div>
+                    <div className="w-1/5 text-center">
                       {info.current?.record_summary.remaining}
                     </div>
                   </div>

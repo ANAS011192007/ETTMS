@@ -16,6 +16,6 @@
     "Submit": "Submit",
     "TrackID": "Track ID: {{id}}",
     "TrackRegistration": "Tracking Registration",
-    "SuccessfullyRegisteredDevice": "Successfully registered the device",
+    "SuccessfullyRegisteredTrack": "Successfully registered the Tracking",
     "OK": "OK"
   }

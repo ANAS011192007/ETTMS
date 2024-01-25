@@ -1,7 +1,7 @@
 import React from "react";
 import { PieChart, Pie, Cell } from "recharts";
 
-const COLORS = ["#0D47A1", "#64748b", "#e2e8f0"];
+const COLORS = ["green", "blue", "orange"];
 
 const PieChartComponent = ({
   completedPercentage,

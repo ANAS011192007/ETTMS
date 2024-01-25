@@ -135,7 +135,7 @@ function QRScanPage({ Page, trackId }: { Page: string; trackId?: string }) {
       console.error("Error:", error);
 
       if (error.response) {
-        // toast.error("Not a registered Device ID");
+        toast.error("Not a registered Device ID");
       }
     }
   };
@@ -155,7 +155,7 @@ function QRScanPage({ Page, trackId }: { Page: string; trackId?: string }) {
   return (
     <div>
       <div className="text-center p-4 text-2xl font-bold">
-        {Page == "Device" ? "Device Information" : "Tracking Information"}
+        {Page == "Device" ? t("DeviceInformation") : t("TrackingInformation")}
       </div>
 
       <div className="flex  justify-center">
