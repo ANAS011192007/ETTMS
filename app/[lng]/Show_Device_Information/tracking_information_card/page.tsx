@@ -174,13 +174,13 @@ export function TrackingCard() {
       accessorKey: "Action",
       header: t("Action"),
       cell: ({ row }) => (
-        <div className="text-center w-24">
+        <div className="w-36">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  variant="outline"
-                  className="border-none"
+                  // variant="outline"
+                  className="border-none text-xs w-36 bg-slate-600 mb-1"
                   onClick={async () => {
                     try {
                       const access_token = localStorage.getItem("access_token");
@@ -209,7 +209,8 @@ export function TrackingCard() {
                     }
                   }}
                 >
-                  <MdShowChart className="bg-slate-700 text-white rounded" />
+                  {/* <MdShowChart className="bg-slate-700 text-white rounded" /> */}
+                  Tracking Registration
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -223,7 +224,7 @@ export function TrackingCard() {
               <TooltipTrigger asChild>
                 <Button
                   variant="outline"
-                  className="border-none"
+                  className="border-none w-36 text-white bg-slate-600 text-xs"
                   onClick={() => {
                     const params = new URLSearchParams();
                     params.append("track_tag", row.getValue("device_tag"));
@@ -232,7 +233,8 @@ export function TrackingCard() {
                     router.push("Show_Tracking_Information" + query);
                   }}
                 >
-                  <TfiAgenda />
+                  {/* <TfiAgenda /> */}
+                  Tracking Information
                 </Button>
               </TooltipTrigger>
               <TooltipContent>

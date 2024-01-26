@@ -11,10 +11,10 @@ function ShowTrackingInformationPage() {
         <SidebarPage />
         <div className="flex-1 ">
           <NavbarPage />
-          <div className="p-4 w-[80%] ml-8">
+          <div className="p-4 w-[90%] ml-8">
             <InfoCard />
           </div>
-          <div className="p-4 w-[80%] ml-8">
+          <div className="p-4 w-[90%] ml-8">
             <TrackingCard />
           </div>
         </div>
