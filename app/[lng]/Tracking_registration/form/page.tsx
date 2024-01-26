@@ -263,7 +263,7 @@ const TrackRegistrationFormPage = () => {
             </div>
 
             <div className="">
-              <Button
+              {/* <Button
                 type="submit"
                 className={`px-6 py-2 bg-slate-600 text-white font-bold text-lg rounded-xl cursor-pointer mr-2 ${
                   error ? "opacity-50 cursor-not-allowed" : ""
@@ -271,7 +271,7 @@ const TrackRegistrationFormPage = () => {
                 disabled={error}
               >
                 {t("Clear")}
-              </Button>
+              </Button> */}
               <Dialog>
                 <DialogTrigger asChild>
                   <Button

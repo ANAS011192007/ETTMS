@@ -203,7 +203,14 @@ const DeviceRegistrationFormPage = () => {
             </div>
             <div className="">
               <Button
-                type="submit"
+                onClick={() => {
+                  setName("");
+                  setSerial("");
+                  setModel("");
+                  setType("");
+                  setManufacturer("");
+                  setSpecification("");
+                }}
                 className="px-6 py-2 bg-slate-600 text-white font-bold text-lg rounded-xl cursor-pointer mr-2"
               >
                 {t("Clear")}
