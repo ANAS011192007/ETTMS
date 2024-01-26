@@ -24,7 +24,6 @@ import { useTranslation } from "../../i18n/client";
 import users from "@/data/db.json";
 import { useEffect, useRef } from "react";
 const NavbarPage = () => {
-  let user;
   const pathname = usePathname();
   const lng = pathname.split("/")[1];
   const { t } = useTranslation(lng, "navbar");
@@ -44,12 +43,22 @@ const NavbarPage = () => {
     }
   };
 
-  const getUserDetails = async () => {
-    user = localStorage.getItem("user_info");
+  // const getUserDetails = async () => {
+  //   user = localStorage.getItem("user_info");
+  // };
+
+  // // Call the function to get user details
+  // const userDetails = getUserDetails();
+  const user = useRef("");
+  const fetchData = async () => {
+    try {
+      user.current = localStorage.getItem("user_info")!;
+    } catch (error: any) {}
   };
 
-  // Call the function to get user details
-  const userDetails = getUserDetails();
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <nav className="p-2 flex items-center justify-end border-b">
@@ -88,7 +97,7 @@ const NavbarPage = () => {
             <Avatar>
               <AvatarImage
                 className="cursor-pointer"
-                src="https://github.com/shadcn.png"
+                src="/avatar.png"
                 alt="user"
                 referrerPolicy="no-referrer"
               />
@@ -98,7 +107,7 @@ const NavbarPage = () => {
               <div className="text-blue-900 font-bold">
                 {/* {userDetails
                   ? `${userDetails.firstName} ${userDetails.lastName}` */}
-                {user}
+                {user.current}
                 {/* "hello" */}
                 {/* hello */}
                 {/* {userDetails} */}

@@ -17,30 +17,62 @@ function QRCodePage({ Page, trackId }: { Page: string; trackId?: string }) {
     onDecodeResult(result) {
       setData(result.getText());
       console.log(data);
-      const params = new URLSearchParams();
-      if (result.getText() !== "No Result") {
-        if (Page === "Device") {
-          if (result.getText().length === 17) {
-            if (result.getText()) params.append("device_id", result.getText());
-            const query = params.size ? "?" + params.toString() : "";
-            router.push(`Device_registration/form${query}`);
-          } else if (result.getText().length >= 17) {
-            toast.error("Not a valid Track ID");
-          }
-        } else {
-          if (result.getText().length >= 19) {
-            if (result.getText()) params.append("track_id", result.getText());
-            const query = params.size ? "?" + params.toString() : "";
-
-            router.push(`Tracking_registration/form${query}`);
-          } else if (result.getText().length <= 17) {
-            toast.error("Not a valid Device ID");
-          }
-        }
-      }
+      handleDecodedData(result.getText());
     },
     paused: !showQRReader,
   });
+
+  const handleDecodedData = async (data: string) => {
+    const params = new URLSearchParams();
+    if (data !== "No Result") {
+      if (Page === "Device") {
+        if (data.length === 17) {
+          if (data) params.append("device_id", data);
+          const query = params.size ? "?" + params.toString() : "";
+          router.push("Device_registration/form" + query);
+        } else {
+          toast.error("Not a valid Track ID");
+        }
+      } else {
+        if (data.length >= 19) {
+          try {
+            if (data) params.append("track_id", data);
+
+            const query = params.size ? "?" + params.toString() : "";
+            const access_token = localStorage.getItem("access_token");
+            const deviceidres = await axios.post(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/devices/showDeviceDetailsByDevicetag`,
+              { device_tag: data },
+              {
+                headers: {
+                  Authorization: `Bearer ${access_token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            // console.log(deviceid.current);
+            const processingres = await axios.post(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/devices/findCurrentProcessingTypeOfFollowingDevice`,
+              { device_id: deviceidres.data.body._id },
+              {
+                headers: {
+                  Authorization: `Bearer ${access_token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            router.push("Tracking_registration/form" + query);
+          } catch (error: any) {
+            if (error.response && error.response.status === 409) {
+              toast.error("All Processing Types are full");
+            } else {
+              toast.error("Device not registered");
+            }
+          }
+        }
+      }
+    }
+  };
 
   const handleQRButtonClick = () => {
     setShowQRReader(true);
