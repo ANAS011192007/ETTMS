@@ -143,53 +143,76 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     const additionalInfo = `${t("body2")}`;
     pdf.text(additionalInfo, margin, 105, { maxWidth });
 
-    const deviceDetails = [
-      [
-        `${t("deviceType")}`,
-        `${t("manufacturer")}`,
-        `${t("model")}`,
-        `${t("serial")}`,
-      ],
-      [
-        inf.data.body.device_model.device_type,
-        inf.data.body.device_model.manufacturer,
-        inf.data.body.device_model.model,
-        inf.data.body.serial,
-      ],
-    ];
-    console.log(deviceDetails);
+    const deviceDetails = {
+      デバイスタイプ: inf.data.body.device_model.device_type,
+      メーカー: inf.data.body.device_model.manufacturer,
+      モデル: inf.data.body.device_model.model,
+      シリアル: inf.data.body.serial,
+    };
+
+    const tableXR = 45;
+    const tableYR = 125;
+    const lineHeight = 10;
+
+    pdf.setFontSize(17);
+    pdf.text("Device Details", margin, tableYR - 10);
+
+    pdf.setFontSize(14);
+    Object.entries(deviceDetails).forEach(([key, value], index) => {
+      const lineY = tableYR + index * lineHeight;
+      pdf.text(`${key}: ${value}`, tableXR, lineY);
+    });
+    // const deviceDetails = [
+    //   [
+    //     `${t("deviceType")}`,
+    //     `${t("manufacturer")}`,
+    //     `${t("model")}`,
+    //     `${t("serial")}`,
+    //   ],
+    //   [
+    //     inf.data.body.device_model.device_type,
+    //     inf.data.body.device_model.manufacturer,
+    //     inf.data.body.device_model.model,
+    //     inf.data.body.serial,
+    //   ],
+    // ];
+    // console.log(deviceDetails);
+    // const tableX = margin;
+    // const tableY = 125;
+    // const cellPadding = 5;
+
+    // const cellWidth = maxWidth / deviceDetails[0].length;
+    // var cellHeight = 15;
+
+    // pdf.setFontSize(17);
+    // pdf.text(`${t("deviceDetails")}`, tableX, tableY - 10);
+    // pdf.setFontSize(12);
+    // deviceDetails[0].forEach((header, index) => {
+    //   const cellX = tableX + index * cellWidth;
+    //   const cellY = tableY;
+    //   pdf.rect(cellX, cellY, cellWidth, cellHeight);
+    //   pdf.text(header, cellX + cellWidth / 2, cellY + cellHeight / 2, {
+    //     align: "center",
+    //   });
+    // });
+    // console.log(deviceDetails);
+    // pdf.setFontSize(10);
+    // deviceDetails.slice(1).forEach((row, rowIndex) => {
+    //   row.forEach((cell, cellIndex) => {
+    //     const cellX = tableX + cellIndex * cellWidth;
+    //     const cellY =
+    //       tableY + (rowIndex + 1) * cellHeight + rowIndex * cellPadding;
+    //     pdf.rect(cellX, cellY, cellWidth, cellHeight);
+    //     pdf.text(cell, cellX + cellWidth / 2, cellY + cellHeight / 2, {
+    //       align: "center",
+    //     });
+    //   });
+    // });
     const tableX = margin;
     const tableY = 125;
     const cellPadding = 5;
 
-    const cellWidth = maxWidth / deviceDetails[0].length;
     var cellHeight = 15;
-
-    pdf.setFontSize(17);
-    pdf.text(`${t("deviceDetails")}`, tableX, tableY - 10);
-    pdf.setFontSize(12);
-    deviceDetails[0].forEach((header, index) => {
-      const cellX = tableX + index * cellWidth;
-      const cellY = tableY;
-      pdf.rect(cellX, cellY, cellWidth, cellHeight);
-      pdf.text(header, cellX + cellWidth / 2, cellY + cellHeight / 2, {
-        align: "center",
-      });
-    });
-    console.log(deviceDetails);
-    pdf.setFontSize(10);
-    deviceDetails.slice(1).forEach((row, rowIndex) => {
-      row.forEach((cell, cellIndex) => {
-        const cellX = tableX + cellIndex * cellWidth;
-        const cellY =
-          tableY + (rowIndex + 1) * cellHeight + rowIndex * cellPadding;
-        pdf.rect(cellX, cellY, cellWidth, cellHeight);
-        pdf.text(cell, cellX + cellWidth / 2, cellY + cellHeight / 2, {
-          align: "center",
-        });
-      });
-    });
-
     const recordDetails = [
       [
         `${t("recordDate")}`,
@@ -305,8 +328,12 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
       format: "a4",
       orientation: "portrait",
     });
+    pdf.addFileToVFS("HinaMincho-Regular.ttf", fontData.base64data);
+    pdf.addFont("HinaMincho-Regular.ttf", "HinaMincho-Regular", "bold");
+    pdf.addFont("HinaMincho-Regular.ttf", "HinaMincho-Regular", "normal");
 
-    pdf.setFont("normal", "bold");
+    pdf.setFont("HinaMincho-Regular", "bold"); // set font
+    // pdf.setFont("normal", "bold");
     pdf.setFontSize(10);
 
     const id = `Device ID : ${trackId}`;
@@ -315,7 +342,7 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     pdf.setFontSize(20);
     const title = "Tracking Information Certificate For Device";
     pdf.text(title, 40, 45);
-    pdf.setFont("normal", "normal");
+    pdf.setFont("HinaMincho-Regular", "normal");
     pdf.setFontSize(13);
     const info =
       "Regarding the equipment listed below, the data is correct that all processing has been completed in accordance with the requested processing. It will be certified by the Association of Data Erase Certification (ADEC).";
@@ -330,9 +357,9 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
         Tracking Completion Date:
         Required Specifications:`;
 
-    pdf.setFont("normal", "bold");
+    pdf.setFont("HinaMincho-Regular", "bold");
     pdf.text(specification, 40, 75);
-    pdf.setFont("normal", "normal");
+    pdf.setFont("HinaMincho-Regular", "normal");
     // const tstart = `
     //     12/21/2023, 2:33:08 PM
     // `;
@@ -346,11 +373,11 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     // `;
     // pdf.text(req, 93, 85.8);
     const tstart = inf.data.body.createdAt.slice(0, 10);
-    pdf.text(tstart, 92, 80.5);
+    pdf.text(tstart, 87, 80.5);
     const tend = inf.data.body.deadline.slice(0, 10);
-    pdf.text(tend, 105, 85.5);
+    pdf.text(tend, 98, 85.5);
     const req = inf.data.body.request_type.title_en;
-    pdf.text(req, 99, 91);
+    pdf.text(req, 92, 91);
 
     const additionalInfo =
       "This document serves as proof that your company data erasure work has been completed.";
@@ -363,12 +390,12 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
       Serial: inf.data.body.serial,
     };
 
-    const tableXR = margin;
+    const tableXR = 45;
     const tableYR = 125;
-    const lineHeight = 10;
+    const lineHeight = 7;
 
     pdf.setFontSize(17);
-    pdf.text("Device Details", tableXR, tableYR - 10);
+    pdf.text("Device Details", margin, tableYR - 10);
 
     pdf.setFontSize(14);
     Object.entries(deviceDetails).forEach(([key, value], index) => {

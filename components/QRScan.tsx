@@ -80,7 +80,7 @@ function QRScanPage({ Page, trackId }: { Page: string; trackId?: string }) {
         } else {
           if (datas.length >= 19) {
             if (datas) {
-              params.append("track_tag", data);
+              params.append("track_tag", datas);
             }
 
             let access_token;
