@@ -72,7 +72,7 @@ function QRScanPage({ Page, trackId }: { Page: string; trackId?: string }) {
             if (devicerecordSummaryResponse.data.status === 200) {
               router.push(`Show_Device_Information${query}`);
             } else {
-              toast.error("This device has not been registered yet.");
+              toast.error("This track has not been registered yet.");
             }
           } else if (data.length >= 17) {
             toast.error("Not a valid Track ID");
@@ -97,7 +97,7 @@ function QRScanPage({ Page, trackId }: { Page: string; trackId?: string }) {
 
             const tid = await axios.post(
               `${process.env.NEXT_PUBLIC_BASE_URL}/devices/showDeviceDetailsByDevicetag`,
-              { device_tag: data },
+              { device_tag: datas },
               {
                 headers: {
                   Authorization: `Bearer ${access_token}`,
@@ -132,10 +132,18 @@ function QRScanPage({ Page, trackId }: { Page: string; trackId?: string }) {
         }
       }
     } catch (error: any) {
-      console.error("Error:", error);
+      console.error("Error:", error.response);
 
-      if (error.response) {
-        toast.error("Not a registered Device ID");
+      if (error.response && error.response.status === 404) {
+        // If the status code is 404 (Not Found), show the appropriate toast message
+        if (Page === "Device") {
+          toast.error("This track has not been registered yet.");
+        } else {
+          toast.error("This device has not been registered yet.");
+        }
+      } else {
+        // Handle other types of errors here
+        toast.error("An error occurred. Please try again.");
       }
     }
   };

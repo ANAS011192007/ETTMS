@@ -97,7 +97,7 @@ const TrackingCard = ({ trackId }: { trackId: string }) => {
                     {t("pType", { processingType: data["Processing Type"] })}
                   </TableCell>
                   <TableCell className="font-medium">
-                    {data["Created at"]?.slice(0, 19)}
+                    {data["Created at"]?.slice(0, 19).replace("T", ", ")}
                   </TableCell>
                   <TableCell>{data.Location}</TableCell>
                   <TableCell>{data["Tool Used"]}</TableCell>

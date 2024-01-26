@@ -18,13 +18,17 @@ import { useEffect, useRef, useState } from "react";
 import { FaCircle } from "react-icons/fa6";
 import { MdOutlineFileDownload } from "react-icons/md";
 import trackingData from "../../../../data/db.json";
+import * as jsonData from "@/base64FontData.json";
 interface DeviceInfo {
   type: string;
   manufacturer: string;
   model: string;
   serial: string;
 }
-
+interface FontData {
+  base64data: string;
+}
+const fontData: FontData = jsonData as FontData;
 const InfoCard = ({ trackId }: { trackId: string }) => {
   const record_summary = useRef(null);
   const searchparams = useSearchParams();
@@ -75,24 +79,29 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     }));
 
     const pdf = new jsPDF({
-      // unit: "mm",
-      // format: "a4",
-      // orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+      orientation: "portrait",
     });
     // pdf.addFileToVFS(
     //   "https://cdn.glitch.com/90f6c9a8-8978-4aed-be66-e5f49d0355d3%2FMouhitsuBold.ttf?v=1614229112154",
     //   ""
     // );
-    pdf.addFont(
-      "https://cdn.glitch.com/90f6c9a8-8978-4aed-be66-e5f49d0355d3%2FMouhitsuBold.ttf?v=1614229112154",
-      "Mouhitsu",
-      "normal"
-    );
-    pdf.setFont("Mouhitsu", "normal");
-    pdf.setFontSize(10);
-    pdf.text(`デバイスい`, 20, 20);
+    // pdf.addFont(
+    //   "https://cdn.glitch.com/90f6c9a8-8978-4aed-be66-e5f49d0355d3%2FMouhitsuBold.ttf?v=1614229112154",
+    //   "Mouhitsu",
+    //   "normal"
+    // );
+    // pdf.setFont("Mouhitsu", "normal");
+    // pdf.setFontSize(10);
+    // pdf.text(`デバイスい`, 20, 20);
     // pdf.addFileToVFS('NotoSansJP-VariableFont_wght-normal.ttf', font);
     // pdf.addFont('NotoSansJP-VariableFont_wght-normal.ttf', 'NotoSansJP-VariableFont_wght', 'normal');
+    pdf.addFileToVFS("HinaMincho-Regular.ttf", fontData.base64data);
+    pdf.addFont("HinaMincho-Regular.ttf", "HinaMincho-Regular", "bold");
+
+    pdf.setFont("HinaMincho-Regular", "bold"); // set font
+    pdf.setFontSize(10);
     const id = `${t("deviceid")} : ${trackId}`;
     pdf.text(id, 130, 30);
 
@@ -108,24 +117,29 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     pdf.text(info, margin, 60, { maxWidth });
 
     const specification = `
-     ${t("startdate")}:
+     ${t("startDate")}:
      ${t("endDate")}:
      ${t("requiredSpecifications")}:`;
 
     pdf.text(specification, 40, 75);
-    const tstart = `
-          12/21/2023, 2:33:08 PM
-      `;
-    pdf.text(tstart, 86, 75);
-    const tend = `
-          12/21/2023, 2:40:08 PM
-      `;
-    pdf.text(tend, 99, 80.5);
-    const req = `
-          ERA>PUR>PUR
-      `;
-    pdf.text(req, 93, 85.8);
-
+    // const tstart = `
+    //       12/21/2023, 2:33:08 PM
+    //   `;
+    // pdf.text(tstart, 86, 75);
+    // const tend = `
+    //       12/21/2023, 2:40:08 PM
+    //   `;
+    // pdf.text(tend, 99, 80.5);
+    // const req = `
+    //       ERA>PUR>PUR
+    //   `;
+    // pdf.text(req, 93, 85.8);
+    const tstart = inf.data.body.createdAt.slice(0, 10);
+    pdf.text(tstart, 72, 80.5);
+    const tend = inf.data.body.deadline.slice(0, 10);
+    pdf.text(tend, 72, 85.5);
+    const req = inf.data.body.request_type.title_en;
+    pdf.text(req, 67, 91);
     const additionalInfo = `${t("body2")}`;
     pdf.text(additionalInfo, margin, 105, { maxWidth });
 
@@ -151,9 +165,9 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     const cellWidth = maxWidth / deviceDetails[0].length;
     var cellHeight = 15;
 
-    pdf.setFontSize(20);
+    pdf.setFontSize(17);
     pdf.text(`${t("deviceDetails")}`, tableX, tableY - 10);
-    pdf.setFontSize(15);
+    pdf.setFontSize(12);
     deviceDetails[0].forEach((header, index) => {
       const cellX = tableX + index * cellWidth;
       const cellY = tableY;
@@ -195,9 +209,9 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
 
     const recordTableY = tableY + 50;
 
-    pdf.setFontSize(20);
+    pdf.setFontSize(17);
     pdf.text(`${t("recordInformationDetails")}`, tableX, recordTableY - 10);
-    pdf.setFontSize(15);
+    pdf.setFontSize(12);
     const cellWidthForRecord = maxWidth / recordDetails[0].length;
 
     recordDetails[0].forEach((header, index) => {
@@ -671,8 +685,8 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
         </CardContent>
         <CardFooter>
           <Button
-            // onClick={lng === "en" ? EngdownloadPDF : JpdownloadPDF}
-            onClick={EngdownloadPDF}
+            onClick={lng === "en" ? EngdownloadPDF : JpdownloadPDF}
+            // onClick={JpdownloadPDF}
             className="border-blue-300 text-slate-500"
             variant="outline"
           >

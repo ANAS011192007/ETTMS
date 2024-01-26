@@ -41,8 +41,8 @@
     "serial": "シリアル",
     "recordInformationDetails": "レコード情報の詳細",
     "recordDate": "記録日",
-    "processingType": "処理タイプ",
-    "softwareUsed": "使用したソフトウェア",
+    "processingType": "加工タイプ",
+    "softwareUsed": "ソフトウェア",
     "location": "位置",
     "image": "画像"
 
