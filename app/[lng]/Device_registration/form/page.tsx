@@ -115,7 +115,14 @@ const DeviceRegistrationFormPage = () => {
       console.error("Error adding tracking info:", error);
     }
   };
-
+  const isFormValid = [
+    Name,
+    Serial,
+    Model,
+    Type,
+    Manufacturer,
+    Specification,
+  ].every((field) => field.trim() !== "");
   const handleSubmit = (event: any) => {
     event.preventDefault();
   };
@@ -146,6 +153,7 @@ const DeviceRegistrationFormPage = () => {
                   onChange={(e) => setName(e.target.value)}
                   className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
                   placeholder={t("EnterDeviceName")}
+                  required
                 />
                 <Input
                   name="deviceSerial"
@@ -153,6 +161,7 @@ const DeviceRegistrationFormPage = () => {
                   onChange={(e) => setSerial(e.target.value)}
                   className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
                   placeholder={t("EnterDeviceSerial")}
+                  required
                 />
                 <Input
                   name="deviceModel"
@@ -160,8 +169,9 @@ const DeviceRegistrationFormPage = () => {
                   onChange={(e) => setModel(e.target.value)}
                   className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
                   placeholder={t("EnterDeviceModel")}
+                  required
                 />
-                <Select onValueChange={(value) => setType(value)}>
+                <Select onValueChange={(value) => setType(value)} required>
                   <SelectTrigger className="w-96 font-bold rounded-xl mb-4 border-slate-500">
                     <SelectValue placeholder={t("SelectAnItem")} />
                   </SelectTrigger>
@@ -191,6 +201,7 @@ const DeviceRegistrationFormPage = () => {
                   onChange={(e) => setManufacturer(e.target.value)}
                   className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
                   placeholder={t("EnterDeviceManufacturer")}
+                  required
                 />
                 <Input
                   name="deviceSpecification"
@@ -198,6 +209,7 @@ const DeviceRegistrationFormPage = () => {
                   onChange={(e) => setSpecification(e.target.value)}
                   className=" w-96 font-bold rounded-xl mb-4 border-slate-500"
                   placeholder={t("EnterDeviceSpecification")}
+                  required
                 />
               </div>
             </div>
@@ -219,6 +231,7 @@ const DeviceRegistrationFormPage = () => {
                 <DialogTrigger asChild>
                   <Button
                     type="submit"
+                    disabled={!isFormValid}
                     className="px-6 py-2 bg-slate-600 text-white font-bold text-lg rounded-xl cursor-pointer"
                   >
                     {t("Submit")}

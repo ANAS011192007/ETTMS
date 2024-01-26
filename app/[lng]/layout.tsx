@@ -38,7 +38,7 @@ export default async function RootLayout({
         {/* </div> */}
         {/* </div>
         </div> */}
-        <Toaster />
+        <Toaster richColors />
       </body>
     </html>
   );

@@ -173,6 +173,9 @@ const TrackRegistrationFormPage = () => {
     }
   };
 
+  const isFormValid = [Location, ToolUsed].every(
+    (field) => field.trim() !== ""
+  );
   const handleSubmit = (event: any) => {
     event.preventDefault();
   };
@@ -279,7 +282,7 @@ const TrackRegistrationFormPage = () => {
                     className={`px-6 py-2 bg-slate-600 text-white font-bold text-lg rounded-xl cursor-pointer ${
                       error ? "opacity-50 cursor-not-allowed" : ""
                     }`}
-                    disabled={error}
+                    disabled={!isFormValid}
                   >
                     {t("Submit")}
                   </Button>

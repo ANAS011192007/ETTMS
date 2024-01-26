@@ -9,6 +9,7 @@ const Progressbar = ({ completed }: { completed: number }) => {
       <ProgressBar
         isLabelVisible={false}
         bgColor="#008000"
+        baseBgColor="#B2BEB5"
         completed={completed}
       />
     </div>

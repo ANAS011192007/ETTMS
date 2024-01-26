@@ -94,6 +94,7 @@ const InfoCard = () => {
         }
       );
       const trackid = tid.data.body.track_id;
+      console.log(trackid);
       const devicerecordSummaryResponse = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/tracks/showTrackDetailsById`,
         { track_id: trackid },
@@ -104,8 +105,7 @@ const InfoCard = () => {
           },
         }
       );
-      record_summary.current =
-        devicerecordSummaryResponse.data.body.device_summary;
+      record_summary.current = devicerecordSummaryResponse.data.body;
 
       const infos = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/devices/showAllActiveDevicesOfFollowingTrack`,
@@ -154,15 +154,18 @@ const InfoCard = () => {
               <div className="">
                 <Progressbar
                   completed={
-                    (info.current?.record_summary.completed /
-                      info.current?.record_summary.total) *
-                    100
+                    info.current?.record_summary.completed
+                      ? (info.current?.record_summary.completed /
+                          info.current?.record_summary.total) *
+                        100
+                      : 0
                   }
                 />
               </div>
               <div className="text-xs flex justify-center">
-                {t("RecordsCompleted")} {info.current?.record_summary.completed}
-                /{info.current?.record_summary.total}
+                {t("RecordsCompleted")}{" "}
+                {info.current?.record_summary.completed || 0}/
+                {info.current?.record_summary.total || 0}
               </div>
             </div>
           </div>
@@ -172,36 +175,38 @@ const InfoCard = () => {
                 <div className="flex">
                   <div className="w-1/3 text-slate-500">{t("Status")}</div>
                   <div className="w-2/3 text-orange-200">
-                    {info.current?.status}
+                    {record_summary.current?.status}
                   </div>
                 </div>
                 <div className="flex">
                   <div className="w-1/3 text-slate-500">{t("Project")}</div>
-                  <div className="w-2/3">{info.current?.project.name_en}</div>
+                  <div className="w-2/3">
+                    {record_summary.current?.project.name_en}
+                  </div>
                 </div>
                 <div className="flex">
                   <div className="w-1/3 text-slate-500">{t("Request")}</div>
                   <div className="w-2/3">
-                    {info.current?.request_type.title_en}
+                    {record_summary.current?.request_type.title_en}
                   </div>
                 </div>
                 <div className="flex">
                   <div className="w-1/3 text-slate-500">{t("CreatedDate")}</div>
                   <div className="w-2/3">
-                    {info.current?.createdAt.slice(0, 10)}
+                    {record_summary.current?.createdAt.slice(0, 10)}
                   </div>
                 </div>
                 <div className="flex">
                   <div className="w-1/3 text-slate-500">{t("Duration")}</div>
                   <div className="w-2/3">
-                    {info.current?.start_date.slice(0, 10)} ~{" "}
-                    {info.current?.end_date.slice(0, 10)}
+                    {record_summary.current?.start_date.slice(0, 10)} ~{" "}
+                    {record_summary.current?.end_date.slice(0, 10)}
                   </div>
                 </div>
                 <div className="flex">
                   <div className="w-1/3 text-slate-500">{t("Deadline")}</div>
                   <div className="w-2/3 text-red-400">
-                    {info.current?.deadline.slice(0, 10)}
+                    {record_summary.current?.deadline.slice(0, 10)}
                   </div>
                 </div>
               </div>
@@ -216,7 +221,7 @@ const InfoCard = () => {
                       {t("Total")}
                     </div>
                     <div className="w-1/5 text-center">
-                      {record_summary.current?.total}
+                      {record_summary.current?.device_summary.total}
                     </div>
                   </div>
                   <div className="flex 2xl:mb-1">
@@ -230,7 +235,7 @@ const InfoCard = () => {
                       {t("Completed")}
                     </div>
                     <div className="w-1/5 text-center">
-                      {record_summary.current?.completed}
+                      {record_summary.current?.device_summary.completed}
                     </div>
                   </div>
 
@@ -245,7 +250,7 @@ const InfoCard = () => {
                       {t("InProgress")}
                     </div>
                     <div className="w-1/5 text-center">
-                      {record_summary.current?.inProgress}
+                      {record_summary.current?.device_summary.inProgress}
                     </div>
                   </div>
 
@@ -260,7 +265,7 @@ const InfoCard = () => {
                       {t("Remaining")}
                     </div>
                     <div className="w-1/5 text-center">
-                      {record_summary.current?.remaining}
+                      {record_summary.current?.device_summary.remaining}
                     </div>
                   </div>
                 </div>
@@ -296,7 +301,7 @@ const InfoCard = () => {
                       {t("Total")}
                     </div>
                     <div className="w-1/5 text-center">
-                      {info.current?.record_summary.total}
+                      {info.current?.record_summary.total || 0}
                     </div>
                   </div>
                   {/* <div className="flex items-center 2xl:mb-1">
@@ -338,7 +343,7 @@ const InfoCard = () => {
                       {t("Completed")}
                     </div>
                     <div className="w-1/5 text-center">
-                      {info.current?.record_summary.completed}
+                      {info.current?.record_summary.completed || 0}
                     </div>
                   </div>
 
@@ -353,7 +358,7 @@ const InfoCard = () => {
                       {t("Remaining")}
                     </div>
                     <div className="w-1/5 text-center">
-                      {info.current?.record_summary.remaining}
+                      {info.current?.record_summary.remaining || 0}
                     </div>
                   </div>
                 </div>

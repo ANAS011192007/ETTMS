@@ -356,48 +356,72 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
       "This document serves as proof that your company data erasure work has been completed.";
     pdf.text(additionalInfo, margin, 105, { maxWidth });
 
-    const deviceDetails = [
-      ["Device Type", "Manufacturer", "Model", "Serial"],
-      [
-        inf.data.body.device_model.device_type,
-        inf.data.body.device_model.manufacturer,
-        inf.data.body.device_model.model,
-        inf.data.body.serial,
-      ],
-    ];
-    console.log(deviceDetails);
+    const deviceDetails = {
+      "Device Type": inf.data.body.device_model.device_type,
+      Manufacturer: inf.data.body.device_model.manufacturer,
+      Model: inf.data.body.device_model.model,
+      Serial: inf.data.body.serial,
+    };
+
+    const tableXR = margin;
+    const tableYR = 125;
+    const lineHeight = 10;
+
+    pdf.setFontSize(17);
+    pdf.text("Device Details", tableXR, tableYR - 10);
+
+    pdf.setFontSize(14);
+    Object.entries(deviceDetails).forEach(([key, value], index) => {
+      const lineY = tableYR + index * lineHeight;
+      pdf.text(`${key}: ${value}`, tableXR, lineY);
+    });
+    // const deviceDetails = [
+    //   ["Device Type", "Manufacturer", "Model", "Serial"],
+    //   [
+    //     inf.data.body.device_model.device_type,
+    //     inf.data.body.device_model.manufacturer,
+    //     inf.data.body.device_model.model,
+    //     inf.data.body.serial,
+    //   ],
+    // ];
+    // console.log(deviceDetails);
+    // const tableX = margin;
+    // const tableY = 125;
+    // const cellPadding = 5;
+
+    // const cellWidth = maxWidth / deviceDetails[0].length;
+    // var cellHeight = 15;
+
+    // pdf.setFontSize(17);
+    // pdf.text("Device Details", tableX, tableY - 10);
+    // pdf.setFontSize(14);
+    // deviceDetails[0].forEach((header, index) => {
+    //   const cellX = tableX + index * cellWidth;
+    //   const cellY = tableY;
+    //   pdf.rect(cellX, cellY, cellWidth, cellHeight);
+    //   pdf.text(header, cellX + cellWidth / 2, cellY + cellHeight / 2, {
+    //     align: "center",
+    //   });
+    // });
+    // console.log(deviceDetails);
+    // pdf.setFontSize(10);
+    // deviceDetails.slice(1).forEach((row, rowIndex) => {
+    //   row.forEach((cell, cellIndex) => {
+    //     const cellX = tableX + cellIndex * cellWidth;
+    //     const cellY =
+    //       tableY + (rowIndex + 1) * cellHeight + rowIndex * cellPadding;
+    //     pdf.rect(cellX, cellY, cellWidth, cellHeight);
+    //     pdf.text(cell, cellX + cellWidth / 2, cellY + cellHeight / 2, {
+    //       align: "center",
+    //     });
+    //   });
+    // });
+
     const tableX = margin;
     const tableY = 125;
     const cellPadding = 5;
 
-    const cellWidth = maxWidth / deviceDetails[0].length;
     var cellHeight = 15;
-
-    pdf.setFontSize(17);
-    pdf.text("Device Details", tableX, tableY - 10);
-    pdf.setFontSize(14);
-    deviceDetails[0].forEach((header, index) => {
-      const cellX = tableX + index * cellWidth;
-      const cellY = tableY;
-      pdf.rect(cellX, cellY, cellWidth, cellHeight);
-      pdf.text(header, cellX + cellWidth / 2, cellY + cellHeight / 2, {
-        align: "center",
-      });
-    });
-    console.log(deviceDetails);
-    pdf.setFontSize(10);
-    deviceDetails.slice(1).forEach((row, rowIndex) => {
-      row.forEach((cell, cellIndex) => {
-        const cellX = tableX + cellIndex * cellWidth;
-        const cellY =
-          tableY + (rowIndex + 1) * cellHeight + rowIndex * cellPadding;
-        pdf.rect(cellX, cellY, cellWidth, cellHeight);
-        pdf.text(cell, cellX + cellWidth / 2, cellY + cellHeight / 2, {
-          align: "center",
-        });
-      });
-    });
-
     const recordDetails = [
       ["Record Date", "Processing Type", "Software Used", "Location", "Image"],
       ...dataList.current.map((record: any) => [
