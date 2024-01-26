@@ -68,15 +68,35 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
         },
       }
     );
-    dataList.current = records.data.body.map((item: any) => ({
-      id: item._id,
-      "Processing Type": item.processing_type,
-      "Created at": item.createdAt,
-      Location: item.location,
-      "Tool Used": item.tool.name_en,
-      "Recorded By": `${item.recorded_by.first_name} ${item.recorded_by.last_name}`,
-      Image: item.image_link,
-    }));
+
+    dataList.current = records.data.body.map((item: any) => {
+      const createdAt = new Date(item.createdAt);
+
+      // Format date
+      const formattedDate = `${createdAt.getFullYear()}-${(
+        createdAt.getMonth() + 1
+      )
+        .toString()
+        .padStart(2, "0")}-${createdAt.getDate().toString().padStart(2, "0")}`;
+
+      // Format time
+      const formattedTime = createdAt.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+      });
+
+      return {
+        id: item._id,
+        "Processing Type": item.processing_type,
+        "Created at": `${formattedDate}\n${formattedTime}`,
+        Location: item.location,
+        "Tool Used": item.tool.name_en,
+        "Recorded By": `${item.recorded_by.first_name} ${item.recorded_by.last_name}`,
+        Image: item.image_link,
+      };
+    });
 
     const pdf = new jsPDF({
       unit: "mm",
@@ -222,7 +242,7 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
         `${t("image")}`,
       ],
       ...dataList.current.map((record: any) => [
-        record["Created at"].slice(0, 19).replace("T", ", "),
+        record["Created at"],
         record["Processing Type"],
         record["Tool Used"],
         record["Location"],
@@ -313,15 +333,32 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
         },
       }
     );
-    dataList.current = records.data.body.map((item: any) => ({
-      id: item._id,
-      "Processing Type": item.processing_type,
-      "Created at": item.createdAt,
-      Location: item.location,
-      "Tool Used": item.tool.name_en,
-      "Recorded By": `${item.recorded_by.first_name} ${item.recorded_by.last_name}`,
-      Image: item.image_link,
-    }));
+    dataList.current = records.data.body.map((item: any) => {
+      const createdAt = new Date(item.createdAt);
+
+      const formattedDate = `${createdAt.getFullYear()}-${(
+        createdAt.getMonth() + 1
+      )
+        .toString()
+        .padStart(2, "0")}-${createdAt.getDate().toString().padStart(2, "0")}`;
+
+      const formattedTime = createdAt.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+      });
+
+      return {
+        id: item._id,
+        "Processing Type": item.processing_type,
+        "Created at": `${formattedDate}\n${formattedTime}`,
+        Location: item.location,
+        "Tool Used": item.tool.name_en,
+        "Recorded By": `${item.recorded_by.first_name} ${item.recorded_by.last_name}`,
+        Image: item.image_link,
+      };
+    });
 
     const pdf = new jsPDF({
       unit: "mm",
@@ -452,7 +489,7 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     const recordDetails = [
       ["Record Date", "Processing Type", "Software Used", "Location", "Image"],
       ...dataList.current.map((record: any) => [
-        record["Created at"].slice(0, 19).replace("T", ", "),
+        record["Created at"],
         record["Processing Type"],
         record["Tool Used"],
         record["Location"],

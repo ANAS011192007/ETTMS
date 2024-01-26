@@ -46,8 +46,10 @@ const TrackRegistrationFormPage = () => {
   const tools = useRef([[]]);
   const webcamRef = useRef<Webcam | null>(null);
   const [imgSrc, setImgSrc] = useState<string | null>(null);
+  const [isImageClicked, setIsImageClicked] = useState("");
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current!.getScreenshot();
+    setIsImageClicked("Yes");
     setImgSrc(imageSrc);
     setImage(trackId + ".jpg");
     console.log(imageSrc);
@@ -173,7 +175,7 @@ const TrackRegistrationFormPage = () => {
     }
   };
 
-  const isFormValid = [Location, ToolUsed].every(
+  const isFormValid = [Location, ToolUsed, isImageClicked].every(
     (field) => field.trim() !== ""
   );
   const handleSubmit = (event: any) => {
