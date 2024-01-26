@@ -2,7 +2,7 @@
 import QRScanPage from "@/components/QRScan";
 import NavbarPage from "../navbar/page";
 import SidebarPage from "../sidebar/page";
-function TrackScanPage() {
+const TrackScanPage = () => {
   return (
     <div className="flex flex-col h-screen">
       <div className="flex">
@@ -14,6 +14,6 @@ function TrackScanPage() {
       </div>
     </div>
   );
-}
+};
 
 export default TrackScanPage;

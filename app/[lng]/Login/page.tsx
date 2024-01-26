@@ -15,7 +15,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useFormState } from "react-dom";
-export default function LoginPage() {
+const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -155,4 +155,5 @@ export default function LoginPage() {
       </Card>
     </div>
   );
-}
+};
+export default LoginPage;

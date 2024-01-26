@@ -1,6 +1,6 @@
 import React from "react";
 import InfoCard from "./information_card/page";
-import { TrackingCard } from "./tracking_information_card/page";
+import TrackingCard from "./tracking_information_card/page";
 import NavbarPage from "../navbar/page";
 import SidebarPage from "../sidebar/page";
 

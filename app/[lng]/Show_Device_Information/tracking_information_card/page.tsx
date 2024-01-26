@@ -51,11 +51,11 @@ import { FaEdit, FaSearch } from "react-icons/fa";
 import { MdShowChart } from "react-icons/md";
 import { TfiAgenda } from "react-icons/tfi";
 import { DataTablePagination } from "./DataTablePagination";
-import { DeleteButton } from "./DeleteTrackingInfo";
+// import { DeleteButton } from "./DeleteTrackingInfo";
 import Progressbar from "../information_card/Progressbar";
 import { toast } from "sonner";
 
-export function TrackingCard() {
+const TrackingCard = () => {
   const device_tags = React.useRef([]);
   const info: any = React.useRef(null);
   const pathname = usePathname();
@@ -485,4 +485,5 @@ export function TrackingCard() {
       </div>
     </div>
   );
-}
+};
+export default TrackingCard;

@@ -3,7 +3,7 @@ import QRScanPage from "@/components/QRScan";
 import NavbarPage from "../navbar/page";
 import SidebarPage from "../sidebar/page";
 
-function DeviceScanPage() {
+const DeviceScanPage = () => {
   return (
     <div className="flex flex-col h-screen">
       <div className="flex">
@@ -15,6 +15,6 @@ function DeviceScanPage() {
       </div>
     </div>
   );
-}
+};
 
 export default DeviceScanPage;

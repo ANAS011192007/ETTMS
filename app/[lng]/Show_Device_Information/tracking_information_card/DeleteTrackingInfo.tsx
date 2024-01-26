@@ -23,7 +23,7 @@ import { MdDelete } from "react-icons/md";
 //   Image: string;
 // }
 
-export function DeleteButton({ trackingData }: { trackingData: string }) {
+const DeleteButton = ({ trackingData }: { trackingData: string }) => {
   const handleDelete = async () => {
     console.log(trackingData);
     try {
@@ -67,4 +67,4 @@ export function DeleteButton({ trackingData }: { trackingData: string }) {
       </AlertDialogContent>
     </AlertDialog>
   );
-}
+};

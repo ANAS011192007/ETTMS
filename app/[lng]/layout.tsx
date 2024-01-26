@@ -22,10 +22,7 @@ interface RootLayoutProps {
     lng: string;
   };
 }
-export default async function RootLayout({
-  children,
-  params: { lng },
-}: RootLayoutProps) {
+const RootLayout = async ({ children, params: { lng } }: RootLayoutProps) => {
   return (
     <html lang={lng} dir={dir(lng)}>
       <body className={inter.className}>
@@ -42,4 +39,5 @@ export default async function RootLayout({
       </body>
     </html>
   );
-}
+};
+export default RootLayout;

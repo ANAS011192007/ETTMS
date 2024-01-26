@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import NavbarPage from "../navbar/page";
 import SidebarPage from "../sidebar/page";
 
-function TrackingRegistrationPage() {
+const TrackingRegistrationPage = () => {
   const searchparams = useSearchParams();
   const trackId = searchparams.get("track_id");
   return (
@@ -18,6 +18,6 @@ function TrackingRegistrationPage() {
       </div>
     </div>
   );
-}
+};
 
 export default TrackingRegistrationPage;

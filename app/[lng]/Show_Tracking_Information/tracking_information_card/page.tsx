@@ -11,7 +11,7 @@ import axios from "axios";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { DeleteButton } from "./DeleteTrackingInfo";
+import DeleteButton from "./DeleteTrackingInfo";
 
 interface TrackingData {
   id: string;

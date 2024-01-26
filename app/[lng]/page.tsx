@@ -2,6 +2,7 @@
 
 import LoginPage from "./Login/page";
 
-export default function MainPage() {
+const MainPage = () => {
   return <LoginPage />;
-}
+};
+export default MainPage;

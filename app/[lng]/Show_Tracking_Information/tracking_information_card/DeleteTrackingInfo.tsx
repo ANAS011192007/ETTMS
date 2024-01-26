@@ -22,13 +22,13 @@ interface EditButtonProps {
   Image: string;
 }
 
-export function DeleteButton({
+const DeleteButton = ({
   trackingData,
   buttonName,
 }: {
   trackingData: EditButtonProps;
   buttonName: string;
-}) {
+}) => {
   const handleDelete = async () => {
     try {
       // Make the DELETE request to delete the data
@@ -68,4 +68,5 @@ export function DeleteButton({
       </AlertDialogContent>
     </AlertDialog>
   );
-}
+};
+export default DeleteButton;
