@@ -222,7 +222,7 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
         `${t("image")}`,
       ],
       ...dataList.current.map((record: any) => [
-        record["Created at"].slice(0, 10),
+        record["Created at"].slice(0, 19).replace("T", ", "),
         record["Processing Type"],
         record["Tool Used"],
         record["Location"],
@@ -452,7 +452,7 @@ const InfoCard = ({ trackId }: { trackId: string }) => {
     const recordDetails = [
       ["Record Date", "Processing Type", "Software Used", "Location", "Image"],
       ...dataList.current.map((record: any) => [
-        record["Created at"].slice(0, 10),
+        record["Created at"].slice(0, 19).replace("T", ", "),
         record["Processing Type"],
         record["Tool Used"],
         record["Location"],
