@@ -61,18 +61,18 @@ const NavbarPage = () => {
   }, []);
 
   return (
-    <nav className="p-2 flex items-center justify-end border-b">
-      <div className="flex items-center justify-center">
+    <nav className="p-2 flex items-center justify-end border-b mt-1">
+      {/* <div className="flex items-center justify-center">
         <Link href="" className="mr-4">
           <MdRefresh className="text-xl text-slate-500" />
         </Link>
-      </div>
+      </div> */}
 
       <div className="flex-col mr-4 border-r pr-4">
         <div className="text-slate-500 text-xs">{t("Language-change")}</div>
         <div className="border-b-2">
           <Trans i18nKey="languageSwitcher" t={t}>
-            <Select onValueChange={(value) => handleLanguageChange(value)}>
+            {/* <Select onValueChange={(value) => handleLanguageChange(value)}>
               <SelectTrigger className="border-none">
                 <SelectValue
                   placeholder={lng === "ja" ? "Japanese" : "English"}
@@ -86,7 +86,15 @@ const NavbarPage = () => {
                   <SelectItem value="ja">Japanese</SelectItem>
                 </SelectGroup>
               </SelectContent>
-            </Select>
+            </Select> */}
+            <select onChange={(e) => handleLanguageChange(e.target.value)}>
+              <option value="en" selected={lng === "en"}>
+                English
+              </option>
+              <option value="ja" selected={lng === "ja"}>
+                Japanese
+              </option>
+            </select>
           </Trans>
         </div>
       </div>

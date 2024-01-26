@@ -69,6 +69,8 @@ function QRCodePage({ Page, trackId }: { Page: string; trackId?: string }) {
               toast.error("Device not registered");
             }
           }
+        } else {
+          toast.error("Not a valid Device ID");
         }
       }
     }

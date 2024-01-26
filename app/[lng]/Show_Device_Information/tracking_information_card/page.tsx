@@ -144,7 +144,7 @@ export function TrackingCard() {
       accessorKey: "Progress",
       header: t("Progress"),
       cell: ({ row }) => (
-        <div>
+        <div className="w-16">
           <Progressbar
             completed={
               (parseFloat(row.getValue("completed")) /
@@ -179,8 +179,8 @@ export function TrackingCard() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  // variant="outline"
-                  className="border-none text-xs w-36 bg-slate-600 mb-1"
+                  variant="outline"
+                  className="border-none text-white text-xs w-36 bg-slate-600 mb-1"
                   onClick={async () => {
                     try {
                       const access_token = localStorage.getItem("access_token");
