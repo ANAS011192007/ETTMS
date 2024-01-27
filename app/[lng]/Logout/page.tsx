@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import NavbarPage from "../navbar/page";
 import SidebarPage from "../sidebar/page";
 import { useTranslation } from "@/app/i18n/client";
+import { useEffect } from "react";
 
 const LogoutPage = () => {
   const pathname = usePathname();
@@ -23,7 +24,14 @@ const LogoutPage = () => {
     // Redirect to the login page
     router.push("Device_registration");
   };
-
+  const checkLoginStatus = async () => {
+    if (localStorage.getItem("access_token") === undefined)
+    console.log(localStorage.getItem("access_token"))
+      router.push("/Login");
+  };
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
   return (
     <div className="flex flex-col h-screen">
       <div className="flex">

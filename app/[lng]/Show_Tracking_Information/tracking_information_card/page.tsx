@@ -1,3 +1,4 @@
+"use client"
 import { useTranslation } from "@/app/i18n/client";
 import {
   Table,
@@ -23,7 +24,7 @@ interface TrackingData {
   Image: string;
 }
 
-const TrackingCard = ({ trackId }: { trackId: string }) => {
+const TrackingCard = ({ trackId }: { trackId: any }) => {
   const record_summary = useRef(null);
   const dataList = useRef([[]]);
   const info = useRef(null);

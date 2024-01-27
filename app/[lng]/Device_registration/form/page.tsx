@@ -57,7 +57,11 @@ const DeviceRegistrationFormPage = () => {
   const setSpecification = useDeviceRegistrationStore(
     (state) => state.setSpecification
   );
-
+  const checkLoginStatus = async () => {
+    if (localStorage.getItem("access_token") === undefined)
+    console.log(localStorage.getItem("access_token"))
+      router.push("/Login");
+  };
   React.useEffect(() => {
     setName("");
     setSerial("");
@@ -65,6 +69,7 @@ const DeviceRegistrationFormPage = () => {
     setType("");
     setManufacturer("");
     setSpecification("");
+    checkLoginStatus();
   }, []);
   const searchparams = useSearchParams();
   const deviceId = searchparams.get("device_id");

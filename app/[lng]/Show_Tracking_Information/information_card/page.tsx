@@ -29,7 +29,7 @@ interface FontData {
   base64data: string;
 }
 const fontData: FontData = jsonData as FontData;
-const InfoCard = ({ trackId }: { trackId: string }) => {
+const InfoCard = ({ trackId }: { trackId: any }) => {
   const record_summary = useRef(null);
   const searchparams = useSearchParams();
   const device_id = searchparams.get("track_id");

@@ -1,12 +1,22 @@
 "use client";
 import QRCodePage from "@/components/QRCode";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import NavbarPage from "../navbar/page";
 import SidebarPage from "../sidebar/page";
+import { useEffect } from "react";
 
 const TrackingRegistrationPage = () => {
   const searchparams = useSearchParams();
   const trackId = searchparams.get("track_id");
+  const router = useRouter()
+  const checkLoginStatus = async () => {
+    if (localStorage.getItem("access_token") === undefined)
+    console.log(localStorage.getItem("access_token"))
+      router.push("/Login");
+  };
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
   return (
     <div className="flex flex-col h-screen">
       <div className="flex">
