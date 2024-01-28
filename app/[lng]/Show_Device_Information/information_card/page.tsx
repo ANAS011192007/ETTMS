@@ -17,11 +17,14 @@ const QRious = dynamic(
   () => import("react-qrious").then((module) => module.QRious),
   { ssr: false }
 );
-const InfoCard = () => {
+const DeviceInfoCard = () => {
   const record_summary: any = useRef(null);
   const info: any = useRef(null);
   const device_tags = useRef([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
+  const deviceData = DeviceRegistrationData.DeviceRegistrationData;
+  const deviceIds = deviceData.map((device) => device.deviceid);
+const qrCodeContainerRefs = deviceIds.map(() => useRef<HTMLDivElement>(null));
   const percentage = 100;
   const circumference = 2 * Math.PI * 30;
   const dashOffset = ((100 - percentage) / 100) * circumference;
@@ -31,9 +34,7 @@ const InfoCard = () => {
   const pathname = usePathname();
   const lng = pathname.split("/")[1];
   const { t } = useTranslation(lng, "DeviceInfoCard");
-  const deviceData = DeviceRegistrationData.DeviceRegistrationData;
-  const deviceIds = deviceData.map((device) => device.deviceid);
-  const qrCodeContainerRefs = deviceIds.map(() => useRef<HTMLDivElement>(null));
+  
   const downloadAllQRCodes = () => {
     const pdf = new jsPDF({
       unit: "mm",
@@ -122,10 +123,10 @@ const InfoCard = () => {
       );
       console.log(device_tags.current);
       info.current = infos.data.body[0];
-      setLoading(false);
+      // setLoading(false);
     } catch (error) {
       console.error("Error fetching session data:", error);
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -409,4 +410,4 @@ const InfoCard = () => {
   );
 };
 
-export default InfoCard;
+export default DeviceInfoCard;

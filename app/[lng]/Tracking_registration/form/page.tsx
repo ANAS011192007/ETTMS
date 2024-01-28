@@ -38,8 +38,6 @@ import SidebarPage from "../../sidebar/page";
 
 const TrackRegistrationFormPage = () => {
   const [error, setError] = useState(false);
-  const searchparams = useSearchParams();
-  const trackId = searchparams.get("track_id");
   const [loading, setLoading] = useState(true);
   const deviceid = useRef("");
   const processing_type = useRef("");
@@ -47,6 +45,8 @@ const TrackRegistrationFormPage = () => {
   const webcamRef = useRef<Webcam | null>(null);
   const [imgSrc, setImgSrc] = useState<string | null>(null);
   const [isImageClicked, setIsImageClicked] = useState("");
+  const searchparams = useSearchParams();
+  const trackId = searchparams.get("track_id");
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current!.getScreenshot();
     setIsImageClicked("Yes");

@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-function QRScanPage({ Page, trackId }: { Page: string; trackId?: string }) {
+const QRScanPage = ({ Page, trackId }: { Page: string; trackId?: string }) => {
   const [data, setData] = useState("No result");
 
   const [showQRReader, setShowQRReader] = useState(false);

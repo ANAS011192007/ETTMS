@@ -1,12 +1,12 @@
 "use client"
 import React, { useEffect } from "react";
-import InfoCard from "./information_card/page";
-import TrackingCard from "./tracking_information_card/page";
+import DeviceInfoCard from "./information_card/page";
+import DeviceTrackingCard from "./tracking_information_card/page";
 import NavbarPage from "../navbar/page";
 import SidebarPage from "../sidebar/page";
 import { useRouter } from "next/navigation";
 
-function ShowTrackingInformationPage() {
+const ShowDeviceTrackingInformationPage = () => {
   const router = useRouter()
   const checkLoginStatus = async () => {
     if (localStorage.getItem("access_token") === undefined)
@@ -23,10 +23,10 @@ function ShowTrackingInformationPage() {
         <div className="flex-1 ">
           <NavbarPage />
           <div className="p-4 w-[90%] ml-8">
-            <InfoCard />
+            {/* <DeviceInfoCard /> */}
           </div>
           <div className="p-4 w-[90%] ml-8">
-            <TrackingCard />
+            <DeviceTrackingCard />
           </div>
         </div>
       </div>
@@ -34,4 +34,4 @@ function ShowTrackingInformationPage() {
   );
 }
 
-export default ShowTrackingInformationPage;
+export default ShowDeviceTrackingInformationPage;

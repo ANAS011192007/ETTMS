@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import InfoCard from "./information_card/page";
+import TrackInfoCard from "./information_card/page";
 import TrackingCard from "./tracking_information_card/page";
 import { useRouter, useSearchParams } from "next/navigation";
 import NavbarPage from "../navbar/page";
@@ -27,10 +27,10 @@ const ShowTrackingInformationPage = () => {
         <div className="flex-1 ">
           <NavbarPage />
           <div className="p-4 w-[80%] ml-8">
-            <InfoCard trackId={tracktag} />
+            {/* <TrackInfoCard /> */}
           </div>
           <div className="p-4 w-[80%] ml-8 ">
-            <TrackingCard trackId={trackId} />
+            <TrackingCard  />
           </div>
         </div>
       </div>

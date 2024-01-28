@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import axios from "axios";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import DeleteButton from "./DeleteTrackingInfo";
 
@@ -24,11 +24,13 @@ interface TrackingData {
   Image: string;
 }
 
-const TrackingCard = ({ trackId }: { trackId: any }) => {
+const TrackingCard = () => {
   const record_summary = useRef(null);
   const dataList = useRef([[]]);
   const info = useRef(null);
   const [loading, setLoading] = useState(true);
+  const searchparams = useSearchParams();
+  const device_id = searchparams.get("track_id");
   const pathname = usePathname();
   const lng = pathname.split("/")[1];
   const { t } = useTranslation(lng, "TrackTable");
@@ -36,10 +38,10 @@ const TrackingCard = ({ trackId }: { trackId: any }) => {
     try {
       const access_token = localStorage.getItem("access_token");
 
-      console.log(trackId);
+      console.log(device_id);
       const infos = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/records/showAllRecordsOfFollowingDevice`,
-        { device_id: trackId },
+        { device_id: device_id },
         {
           headers: {
             Authorization: `Bearer ${access_token}`,

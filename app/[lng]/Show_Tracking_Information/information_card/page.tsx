@@ -29,22 +29,24 @@ interface FontData {
   base64data: string;
 }
 const fontData: FontData = jsonData as FontData;
-const InfoCard = ({ trackId }: { trackId: any }) => {
+const TrackInfoCard = () => {
   const record_summary = useRef(null);
-  const searchparams = useSearchParams();
-  const device_id = searchparams.get("track_id");
   const info: any = useRef(null);
   const dataList = useRef([[]]);
-  const [loading, setLoading] = useState(true);
+  const recordData = trackingData.trackingData;
+const imageContainerRefs = recordData.map(() => useRef<HTMLDivElement>(null));
+  // const [loading, setLoading] = useState(true);
+  const searchparams = useSearchParams();
+  const device_id = searchparams.get("track_id");
+  const trackId = searchparams.get("track_tag");
+
   const percentage = 100;
   const circumference = 2 * Math.PI * 30;
-  const dashArray = circumference;
-  const dashOffset = ((100 - percentage) / 100) * circumference;
+  // const dashArray = circumference;
+  // const dashOffset = ((100 - percentage) / 100) * circumference;
   const pathname = usePathname();
   const lng = pathname.split("/")[1];
   const { t } = useTranslation(lng, "TrackInfoCard");
-  const recordData = trackingData.trackingData;
-  const imageContainerRefs = recordData.map(() => useRef<HTMLDivElement>(null));
   const JpdownloadPDF = async () => {
     const access_token = localStorage.getItem("access_token");
 
@@ -595,10 +597,10 @@ const InfoCard = ({ trackId }: { trackId: any }) => {
         Image: item.image_link,
       }));
 
-      setLoading(false);
+      // setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -787,4 +789,4 @@ const InfoCard = ({ trackId }: { trackId: any }) => {
   );
 };
 
-export default InfoCard;
+export default TrackInfoCard;

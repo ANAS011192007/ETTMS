@@ -44,8 +44,7 @@ const LoginPage = () => {
         localStorage.setItem("access_token", access_token);
         localStorage.setItem(
           "user_info",
-          `
-          ${body.first_name}  ${body.last_name}`
+          `${body.first_name}  ${body.last_name}`
         );
 
         // Redirect to another page if needed
@@ -138,7 +137,7 @@ const LoginPage = () => {
             className="hover:bg-transparent hover:text-slate-400 border-none text-xs text-slate-400"
             variant="outline"
           >
-            Don't have an account? Contact admin.
+            Dont have an account? Contact admin.
           </Button>
           <div
             className="flex h-8 items-end space-x-1"

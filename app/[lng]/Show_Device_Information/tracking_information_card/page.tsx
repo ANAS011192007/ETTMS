@@ -44,26 +44,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import ProgressBar from "@ramonak/react-progress-bar";
+// import ProgressBar from "@ramonak/react-progress-bar";
 import axios from "axios";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FaEdit, FaSearch } from "react-icons/fa";
-import { MdShowChart } from "react-icons/md";
-import { TfiAgenda } from "react-icons/tfi";
+// import { MdShowChart } from "react-icons/md";
+// import { TfiAgenda } from "react-icons/tfi";
 import { DataTablePagination } from "./DataTablePagination";
 // import { DeleteButton } from "./DeleteTrackingInfo";
 import Progressbar from "../information_card/Progressbar";
 import { toast } from "sonner";
 
-const TrackingCard = () => {
+const DeviceTrackingCard = () => {
   const device_tags = React.useRef([]);
   const info: any = React.useRef(null);
-  const pathname = usePathname();
-  const lng = pathname.split("/")[1];
-  const searchparams = useSearchParams();
-  const deviceId = searchparams.get("device_id");
-  const { t } = useTranslation(lng, "DeviceTable");
-  const router = useRouter();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -71,6 +65,13 @@ const TrackingCard = () => {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const pathname = usePathname();
+  const lng = pathname.split("/")[1];
+  const searchparams = useSearchParams();
+  const deviceId = searchparams.get("device_id");
+  const { t } = useTranslation(lng, "DeviceTable");
+  const router = useRouter();
+
 
   type DeviceRegistration = {
     device_tag: string;
@@ -341,7 +342,7 @@ const TrackingCard = () => {
       rowSelection,
     },
   });
-  const [loading, setLoading] = React.useState(true);
+  // const [loading, setLoading] = React.useState(true);
   const fetchData = async () => {
     try {
       const access_token = localStorage.getItem("access_token");
@@ -383,11 +384,11 @@ const TrackingCard = () => {
         Status: device.status,
       }));
       console.log(device_tags.current);
-      setLoading(false);
+      // setLoading(false);
       // Your logic with the session data
     } catch (error) {
       console.error("Error fetching session data:", error);
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -486,4 +487,4 @@ const TrackingCard = () => {
     </div>
   );
 };
-export default TrackingCard;
+export default DeviceTrackingCard;

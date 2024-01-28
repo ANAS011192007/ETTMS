@@ -9,7 +9,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import axios from "axios";
 
-function QRCodePage({ Page, trackId }: { Page: string; trackId?: string }) {
+const QRCodePage = ({ Page, trackId }: { Page: string; trackId?: string }) => {
   const [data, setData] = useState("No result");
   const [showQRReader, setShowQRReader] = useState(false);
   const router = useRouter();
