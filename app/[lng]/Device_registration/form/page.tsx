@@ -1,21 +1,5 @@
 "use client";
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   AlertDialog,
   AlertDialogContent,
   AlertDialogDescription,
@@ -24,19 +8,33 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import axios from "axios";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "../../../i18n/client";
 import { useDeviceRegistrationStore } from "../../../store";
 import NavbarPage from "../../navbar/page";
 import SidebarPage from "../../sidebar/page";
+import { toast } from "sonner";
 const DeviceRegistrationFormPage = () => {
-  const pathname = usePathname();
-  const lng = pathname.split("/")[1];
-  console.log(lng);
-  const { t } = useTranslation(lng, "DeviceForm");
+  const [error, setError] = useState(true);
   const Name = useDeviceRegistrationStore((state) => state.Name);
   const setName = useDeviceRegistrationStore((state) => state.setName);
   const Serial = useDeviceRegistrationStore((state) => state.Serial);
@@ -63,6 +61,10 @@ const DeviceRegistrationFormPage = () => {
       router.push("/Login");
     }
   };
+  const pathname = usePathname();
+  const lng = pathname.split("/")[1];
+  console.log(lng);
+  const { t } = useTranslation(lng, "DeviceForm");
   React.useEffect(() => {
     setName("");
     setSerial("");
@@ -115,9 +117,11 @@ const DeviceRegistrationFormPage = () => {
       if (!response) {
         throw Error("Failed to add tracking info");
       }
-
+      setError(false);
       console.log("Add successful");
-    } catch (error) {
+    } catch (error: any) {
+      setError(true);
+      toast.error("Duplicate Information");
       console.error("Error adding tracking info:", error);
     }
   };
@@ -320,28 +324,34 @@ const DeviceRegistrationFormPage = () => {
                     </DialogClose>
                     <AlertDialog>
                       <AlertDialogTrigger>
-                        <Button className="px-6 py-2 bg-slate-600 text-white text-lg rounded-xl font-bold cursor-pointer">
+                        <Button
+                          onClick={() => {
+                            handleSaveChanges();
+                          }}
+                          className="px-6 py-2 bg-slate-600 text-white text-lg rounded-xl font-bold cursor-pointer"
+                        >
                           {t("Confirm")}
                         </Button>
                       </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogDescription className="text-center font-bold text-xl text-black">
-                            {t("SuccessfullyRegisteredDevice")}
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <Button
-                            className="px-6 py-2 bg-slate-600 text-white text-lg rounded-lg cursor-pointer"
-                            onClick={() => {
-                              handleSaveChanges();
-                              router.push("/Device_registration");
-                            }}
-                          >
-                            {t("OK")}
-                          </Button>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
+                      {!error && (
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogDescription className="text-center font-bold text-xl text-black">
+                              {t("SuccessfullyRegisteredDevice")}
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <Button
+                              className="px-6 py-2 bg-slate-600 text-white text-lg rounded-lg cursor-pointer"
+                              onClick={() => {
+                                router.push("/Device_registration");
+                              }}
+                            >
+                              {t("OK")}
+                            </Button>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      )}
                     </AlertDialog>
                   </DialogFooter>
                 </DialogContent>

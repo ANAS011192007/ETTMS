@@ -1,9 +1,9 @@
 "use client";
 import QRCodePage from "@/components/QRCode";
-import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import NavbarPage from "../navbar/page";
 import SidebarPage from "../sidebar/page";
-import { useRouter } from "next/navigation";
 
 const DeviceRegistrationPage = () => {
   const router = useRouter();

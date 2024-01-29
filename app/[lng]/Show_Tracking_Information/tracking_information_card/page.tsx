@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useTranslation } from "@/app/i18n/client";
 import {
   Table,
@@ -12,20 +12,8 @@ import axios from "axios";
 import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import DeleteButton from "./DeleteTrackingInfo";
-
-interface TrackingData {
-  id: string;
-  "Processing Type": string;
-  "Created at": string;
-  Location: string;
-  "Tool Used": string;
-  "Recorded By"?: string;
-  Image: string;
-}
 
 const TrackingCard = () => {
-  const record_summary = useRef(null);
   const dataList = useRef([[]]);
   const info = useRef(null);
   const [loading, setLoading] = useState(true);
@@ -63,7 +51,6 @@ const TrackingCard = () => {
 
       console.log(dataList);
       setLoading(false);
-      // Your logic with the session data
     } catch (error) {
       console.error("Error fetching session data:", error);
       setLoading(false);

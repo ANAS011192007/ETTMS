@@ -54,7 +54,7 @@ const TrackRegistrationFormPage = () => {
     setImage(trackId + ".jpg");
     console.log(imageSrc);
   }, [webcamRef]);
-
+  const [toolname, setToolName] = useState("");
   const ProcessingType = useTrackingStore((state) => state.ProcessingType);
   const setProcessingType = useTrackingStore(
     (state) => state.setProcessingType
@@ -227,7 +227,15 @@ const TrackRegistrationFormPage = () => {
                 placeholder={t("EnterLocation")}
               />
 
-              <Select onValueChange={(value) => setToolUsed(value)}>
+              <Select
+                onValueChange={(value) => {
+                  setToolUsed(value);
+                  const selectedTool: any = tools.current.find(
+                    (tool: any) => tool!._id === value
+                  );
+                  setToolName(selectedTool ? selectedTool.name_en : "");
+                }}
+              >
                 <SelectTrigger className=" w-96 font-bold rounded-xl mb-4 border-slate-500">
                   <SelectValue className="" placeholder={t("ToolUsed")} />
                 </SelectTrigger>
@@ -332,7 +340,7 @@ const TrackRegistrationFormPage = () => {
                         >
                           {t("ToolUsed")}:
                         </Label>
-                        <span>{ToolUsed}</span>
+                        <span>{toolname}</span>
                       </div>
                     </div>
                   </div>

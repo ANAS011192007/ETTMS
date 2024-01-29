@@ -19,22 +19,22 @@ const QRious = dynamic(
 );
 const DeviceInfoCard = () => {
   const record_summary: any = useRef(null);
+  const all_record: any = useRef(null);
   const info: any = useRef(null);
   const device_tags = useRef([]);
-  // const [loading, setLoading] = useState(true);
-  const deviceData = DeviceRegistrationData.DeviceRegistrationData;
-  const deviceIds = deviceData.map((device) => device.deviceid);
-const qrCodeContainerRefs = deviceIds.map(() => useRef<HTMLDivElement>(null));
-  const percentage = 100;
-  const circumference = 2 * Math.PI * 30;
-  const dashOffset = ((100 - percentage) / 100) * circumference;
+  const [loading, setLoading] = useState(true);
+  const recordData = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  ];
+  const qrCodeContainerRefs = recordData.map(() =>
+    useRef<HTMLDivElement>(null)
+  );
   const searchparams = useSearchParams();
   const deviceId = searchparams.get("device_id");
-  const page = searchparams.get("page");
   const pathname = usePathname();
   const lng = pathname.split("/")[1];
   const { t } = useTranslation(lng, "DeviceInfoCard");
-  
+
   const downloadAllQRCodes = () => {
     const pdf = new jsPDF({
       unit: "mm",
@@ -108,6 +108,19 @@ const qrCodeContainerRefs = deviceIds.map(() => useRef<HTMLDivElement>(null));
       );
       record_summary.current = devicerecordSummaryResponse.data.body;
 
+      const allRecord = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/devices/showAllDevicesRecordSummaryOfFollowingTrack`,
+        { track_id: trackid },
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      all_record.current = allRecord.data.body.record_summary;
+      console.log("all record", all_record.current);
       const infos = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/devices/showAllActiveDevicesOfFollowingTrack`,
         { track_id: trackid },
@@ -123,10 +136,10 @@ const qrCodeContainerRefs = deviceIds.map(() => useRef<HTMLDivElement>(null));
       );
       console.log(device_tags.current);
       info.current = infos.data.body[0];
-      // setLoading(false);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching session data:", error);
-      // setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -155,18 +168,17 @@ const qrCodeContainerRefs = deviceIds.map(() => useRef<HTMLDivElement>(null));
               <div className="">
                 <Progressbar
                   completed={
-                    info.current?.record_summary.completed
-                      ? (info.current?.record_summary.completed /
-                          info.current?.record_summary.total) *
+                    all_record.current?.completed
+                      ? (all_record.current?.completed /
+                          all_record.current?.total) *
                         100
                       : 0
                   }
                 />
               </div>
               <div className="text-xs flex justify-center">
-                {t("RecordsCompleted")}{" "}
-                {info.current?.record_summary.completed || 0}/
-                {info.current?.record_summary.total || 0}
+                {t("RecordsCompleted")} {all_record.current?.completed || 0}/
+                {all_record.current?.total || 0}
               </div>
             </div>
           </div>
@@ -302,37 +314,9 @@ const qrCodeContainerRefs = deviceIds.map(() => useRef<HTMLDivElement>(null));
                       {t("Total")}
                     </div>
                     <div className="w-1/5 text-center">
-                      {info.current?.record_summary.total || 0}
+                      {all_record.current?.total || 0}
                     </div>
                   </div>
-                  {/* <div className="flex items-center 2xl:mb-1">
-                    <div className="w-3/4 flex items-center text-slate-500">
-                      <FaCircle
-                        style={{
-                          color: "green",
-                        }}
-                        className="inline-block mr-0.5 h-4 w-4" // Adjust the height and width as needed
-                      />
-                      {t("Completed")}
-                    </div>
-                    <div className="w-1/4 text-center">
-                      {info.current?.record_summary.completed}
-                    </div>
-                  </div>
-                  <div className="flex items-center  2xl:mb-1">
-                    <div className="w-3/4 flex items-center text-slate-500">
-                      <FaCircle
-                        style={{
-                          color: "blue",
-                        }}
-                        className="inline-block mr-0.5 h-4 w-4" // Adjust the height and width as needed
-                      />
-                      {t("Remaining")}
-                    </div>
-                    <div className="w-1/4 text-center">
-                      {info.current?.record_summary.remaining}
-                    </div>
-                  </div> */}
                   <div className="flex 2xl:mb-1">
                     <div className="w-4/5 text-slate-500">
                       <FaCircle
@@ -344,7 +328,7 @@ const qrCodeContainerRefs = deviceIds.map(() => useRef<HTMLDivElement>(null));
                       {t("Completed")}
                     </div>
                     <div className="w-1/5 text-center">
-                      {info.current?.record_summary.completed || 0}
+                      {all_record.current?.completed || 0}
                     </div>
                   </div>
 
@@ -359,21 +343,21 @@ const qrCodeContainerRefs = deviceIds.map(() => useRef<HTMLDivElement>(null));
                       {t("Remaining")}
                     </div>
                     <div className="w-1/5 text-center">
-                      {info.current?.record_summary.remaining || 0}
+                      {all_record.current?.remaining || 0}
                     </div>
                   </div>
                 </div>
                 <div className=" flex  items-center justify-right ">
                   <PieChartComponent
                     completedPercentage={
-                      (info.current?.record_summary.completed /
-                        info.current?.record_summary.total) *
+                      (all_record.current?.completed /
+                        all_record.current?.total) *
                       100
                     }
                     inProgressPercentage={0}
                     remainingPercentage={
-                      (info.current?.record_summary.remaining /
-                        info.current?.record_summary.total) *
+                      (all_record.current?.remaining /
+                        all_record.current?.total) *
                       100
                     }
                   />

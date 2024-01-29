@@ -1,5 +1,6 @@
 "use client";
 import { useTranslation } from "@/app/i18n/client";
+import * as jsonData from "@/base64FontData.json";
 import PieChartComponent from "@/components/chart";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,14 +18,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FaCircle } from "react-icons/fa6";
 import { MdOutlineFileDownload } from "react-icons/md";
-import trackingData from "../../../../data/db.json";
-import * as jsonData from "@/base64FontData.json";
-interface DeviceInfo {
-  type: string;
-  manufacturer: string;
-  model: string;
-  serial: string;
-}
+
 interface FontData {
   base64data: string;
 }
@@ -33,9 +27,11 @@ const TrackInfoCard = () => {
   const record_summary = useRef(null);
   const info: any = useRef(null);
   const dataList = useRef([[]]);
-  const recordData = trackingData.trackingData;
-const imageContainerRefs = recordData.map(() => useRef<HTMLDivElement>(null));
-  // const [loading, setLoading] = useState(true);
+  const recordData = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  ];
+  const imageContainerRefs = recordData.map(() => useRef<HTMLDivElement>(null));
+  const [loading, setLoading] = useState(true);
   const searchparams = useSearchParams();
   const device_id = searchparams.get("track_id");
   const trackId = searchparams.get("track_tag");
@@ -597,10 +593,10 @@ const imageContainerRefs = recordData.map(() => useRef<HTMLDivElement>(null));
         Image: item.image_link,
       }));
 
-      // setLoading(false);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
-      // setLoading(false);
+      setLoading(false);
     }
   };
 

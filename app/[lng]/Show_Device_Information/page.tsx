@@ -23,7 +23,9 @@ const ShowDeviceTrackingInformationPage = () => {
         <SidebarPage />
         <div className="flex-1 ">
           <NavbarPage />
-          <div className="p-4 w-[90%] ml-8">{/* <DeviceInfoCard /> */}</div>
+          <div className="p-4 w-[90%] ml-8">
+            <DeviceInfoCard />
+          </div>
           <div className="p-4 w-[90%] ml-8">
             <DeviceTrackingCard />
           </div>

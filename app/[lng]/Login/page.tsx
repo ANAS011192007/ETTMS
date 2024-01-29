@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
 import {
   Card,
   CardContent,
@@ -11,10 +10,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { useTranslation } from "@/app/i18n/client";
-import { usePathname, useRouter } from "next/navigation";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useFormState } from "react-dom";
 const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();

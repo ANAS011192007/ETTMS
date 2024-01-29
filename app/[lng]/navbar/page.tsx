@@ -6,6 +6,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { Trans } from "react-i18next/TransWithoutContext";
+import { MdRefresh } from "react-icons/md";
+import { RiArrowDropDownLine } from "react-icons/ri";
+import { useTranslation } from "../../i18n/client";
+import { useEffect, useRef, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -15,15 +22,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { Trans } from "react-i18next/TransWithoutContext";
-import { MdRefresh } from "react-icons/md";
-import { RiArrowDropDownLine } from "react-icons/ri";
-import { useTranslation } from "../../i18n/client";
-import users from "@/data/db.json";
-import { useEffect, useRef } from "react";
 const NavbarPage = () => {
+  // const user = useRef("");
+  const [user, setUser] = useState("");
+
+  const getUserDetails = async () => {
+    try {
+      const userInfo = localStorage.getItem("user_info");
+      setUser(userInfo || ""); // Set the user state
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    getUserDetails(); // Fetch user details when component mounts
+  }, []);
   const pathname = usePathname();
   const lng = pathname.split("/")[1];
   const { t } = useTranslation(lng, "navbar");
@@ -49,16 +63,20 @@ const NavbarPage = () => {
 
   // // Call the function to get user details
   // const userDetails = getUserDetails();
-  const user = useRef("");
-  const fetchData = async () => {
-    try {
-      user.current = localStorage.getItem("user_info")!;
-    } catch (error: any) {}
-  };
+  // const fetchData = async () => {
+  //   try {
+  //     if (typeof window !== "undefined") {
+  //       user.current = localStorage.getItem("user_info") || "";
+  //       console.log(user.current);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching user data:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   return (
     <nav className="p-2 flex items-center justify-end border-b mt-1">
@@ -72,7 +90,7 @@ const NavbarPage = () => {
         <div className="text-slate-500 text-xs">{t("Language-change")}</div>
         <div className="border-b-2">
           <Trans i18nKey="languageSwitcher" t={t}>
-            {/* <Select onValueChange={(value) => handleLanguageChange(value)}>
+            <Select onValueChange={(value) => handleLanguageChange(value)}>
               <SelectTrigger className="border-none">
                 <SelectValue
                   placeholder={lng === "ja" ? "Japanese" : "English"}
@@ -86,15 +104,15 @@ const NavbarPage = () => {
                   <SelectItem value="ja">Japanese</SelectItem>
                 </SelectGroup>
               </SelectContent>
-            </Select> */}
-            <select onChange={(e) => handleLanguageChange(e.target.value)}>
+            </Select>
+            {/* <select onChange={(e) => handleLanguageChange(e.target.value)}>
               <option value="en" selected={lng === "en"}>
                 English
               </option>
               <option value="ja" selected={lng === "ja"}>
                 Japanese
               </option>
-            </select>
+            </select> */}
           </Trans>
         </div>
       </div>
@@ -115,7 +133,7 @@ const NavbarPage = () => {
               <div className="text-blue-900 font-bold">
                 {/* {userDetails
                   ? `${userDetails.firstName} ${userDetails.lastName}` */}
-                {user.current}
+                {user}
                 {/* "hello" */}
                 {/* hello */}
                 {/* {userDetails} */}

@@ -5,18 +5,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { MdDelete } from "react-icons/md";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -33,7 +21,6 @@ import * as React from "react";
 import { TbDevicesPlus } from "react-icons/tb";
 
 import { useTranslation } from "@/app/i18n/client";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -47,13 +34,13 @@ import {
 // import ProgressBar from "@ramonak/react-progress-bar";
 import axios from "axios";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { FaEdit, FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 // import { MdShowChart } from "react-icons/md";
 // import { TfiAgenda } from "react-icons/tfi";
 import { DataTablePagination } from "./DataTablePagination";
 // import { DeleteButton } from "./DeleteTrackingInfo";
-import Progressbar from "../information_card/Progressbar";
 import { toast } from "sonner";
+import Progressbar from "../information_card/Progressbar";
 
 const DeviceTrackingCard = () => {
   const device_tags = React.useRef([]);
@@ -71,7 +58,6 @@ const DeviceTrackingCard = () => {
   const deviceId = searchparams.get("device_id");
   const { t } = useTranslation(lng, "DeviceTable");
   const router = useRouter();
-
 
   type DeviceRegistration = {
     device_tag: string;
@@ -342,7 +328,7 @@ const DeviceTrackingCard = () => {
       rowSelection,
     },
   });
-  // const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState(true);
   const fetchData = async () => {
     try {
       const access_token = localStorage.getItem("access_token");
@@ -384,11 +370,11 @@ const DeviceTrackingCard = () => {
         Status: device.status,
       }));
       console.log(device_tags.current);
-      // setLoading(false);
+      setLoading(false);
       // Your logic with the session data
     } catch (error) {
       console.error("Error fetching session data:", error);
-      // setLoading(false);
+      setLoading(false);
     }
   };
 

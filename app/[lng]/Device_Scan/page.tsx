@@ -1,9 +1,9 @@
 "use client";
 import QRScanPage from "@/components/QRScan";
-import NavbarPage from "../navbar/page";
-import SidebarPage from "../sidebar/page";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import NavbarPage from "../navbar/page";
+import SidebarPage from "../sidebar/page";
 
 const DeviceScanPage = () => {
   const router = useRouter();
