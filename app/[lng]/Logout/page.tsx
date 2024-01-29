@@ -25,9 +25,10 @@ const LogoutPage = () => {
     router.push("Device_registration");
   };
   const checkLoginStatus = async () => {
-    if (localStorage.getItem("access_token") === undefined)
-    console.log(localStorage.getItem("access_token"))
+    if (localStorage.getItem("access_token") === null) {
+      console.log(localStorage.getItem("access_token"));
       router.push("/Login");
+    }
   };
   useEffect(() => {
     checkLoginStatus();

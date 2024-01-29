@@ -11,11 +11,12 @@ const ShowTrackingInformationPage = () => {
   const trackId = searchparams.get("track_id");
   const tracktag = searchparams.get("track_tag");
   console.log(tracktag);
-  const router = useRouter()
+  const router = useRouter();
   const checkLoginStatus = async () => {
-    if (localStorage.getItem("access_token") === undefined)
-    console.log(localStorage.getItem("access_token"))
+    if (localStorage.getItem("access_token") === null) {
+      console.log(localStorage.getItem("access_token"));
       router.push("/Login");
+    }
   };
   useEffect(() => {
     checkLoginStatus();
@@ -26,11 +27,9 @@ const ShowTrackingInformationPage = () => {
         <SidebarPage />
         <div className="flex-1 ">
           <NavbarPage />
-          <div className="p-4 w-[80%] ml-8">
-            {/* <TrackInfoCard /> */}
-          </div>
+          <div className="p-4 w-[80%] ml-8">{/* <TrackInfoCard /> */}</div>
           <div className="p-4 w-[80%] ml-8 ">
-            <TrackingCard  />
+            <TrackingCard />
           </div>
         </div>
       </div>

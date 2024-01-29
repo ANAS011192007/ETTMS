@@ -6,11 +6,12 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const DeviceScanPage = () => {
-  const router = useRouter()
+  const router = useRouter();
   const checkLoginStatus = async () => {
-    if (localStorage.getItem("access_token") === undefined)
-    console.log(localStorage.getItem("access_token"))
+    if (localStorage.getItem("access_token") === null) {
+      console.log(localStorage.getItem("access_token"));
       router.push("/Login");
+    }
   };
   useEffect(() => {
     checkLoginStatus();

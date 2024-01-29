@@ -8,11 +8,12 @@ import { useEffect } from "react";
 const TrackingRegistrationPage = () => {
   const searchparams = useSearchParams();
   const trackId = searchparams.get("track_id");
-  const router = useRouter()
+  const router = useRouter();
   const checkLoginStatus = async () => {
-    if (localStorage.getItem("access_token") === undefined)
-    console.log(localStorage.getItem("access_token"))
+    if (localStorage.getItem("access_token") === null) {
+      console.log(localStorage.getItem("access_token"));
       router.push("/Login");
+    }
   };
   useEffect(() => {
     checkLoginStatus();

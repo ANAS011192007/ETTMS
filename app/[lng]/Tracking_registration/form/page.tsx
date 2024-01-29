@@ -124,9 +124,15 @@ const TrackRegistrationFormPage = () => {
       setError(true);
     }
   };
-
+  const checkLoginStatus = async () => {
+    if (localStorage.getItem("access_token") === null) {
+      console.log(localStorage.getItem("access_token"));
+      router.push("/Login");
+    }
+  };
   useEffect(() => {
     fetchData();
+    checkLoginStatus();
   }, []);
 
   const router = useRouter();

@@ -58,9 +58,10 @@ const DeviceRegistrationFormPage = () => {
     (state) => state.setSpecification
   );
   const checkLoginStatus = async () => {
-    if (localStorage.getItem("access_token") === undefined)
-    console.log(localStorage.getItem("access_token"))
+    if (localStorage.getItem("access_token") === null) {
+      console.log(localStorage.getItem("access_token"));
       router.push("/Login");
+    }
   };
   React.useEffect(() => {
     setName("");
