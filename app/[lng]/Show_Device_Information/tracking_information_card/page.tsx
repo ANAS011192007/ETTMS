@@ -189,7 +189,7 @@ const DeviceTrackingCard = () => {
                         const query = params.size
                           ? "?" + params.toString()
                           : "";
-                        router.push("Tracking_registration/form" + query);
+                        router.push("TrackForm" + query);
                       }
                     } catch {
                       toast.error("All Processing Types are full");

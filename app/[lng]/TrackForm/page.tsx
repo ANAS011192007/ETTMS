@@ -32,9 +32,9 @@ import axios from "axios";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
-import { useTrackingStore } from "../../../store";
-import NavbarPage from "../../navbar/page";
-import SidebarPage from "../../sidebar/page";
+import { useTrackingStore } from "../../store";
+import NavbarPage from "../navbar/page";
+import SidebarPage from "../sidebar/page";
 
 const TrackRegistrationFormPage = () => {
   const [error, setError] = useState(false);

@@ -29,7 +29,7 @@ const QRCodePage = ({ Page, trackId }: { Page: string; trackId?: string }) => {
         if (data.length === 17) {
           if (data) params.append("device_id", data);
           const query = params.size ? "?" + params.toString() : "";
-          router.push("Device_registration/form" + query);
+          router.push("DeviceForm" + query);
         } else {
           toast.error("Not a valid Track ID");
         }
@@ -61,7 +61,8 @@ const QRCodePage = ({ Page, trackId }: { Page: string; trackId?: string }) => {
                 },
               }
             );
-            router.push("Tracking_registration/form" + query);
+            // router.push("Tracking_registration/form" + query);
+            router.push(`TrackForm${query}`);
           } catch (error: any) {
             if (error.response && error.response.status === 409) {
               toast.error("All Processing Types are full");
@@ -160,7 +161,7 @@ const QRCodePage = ({ Page, trackId }: { Page: string; trackId?: string }) => {
                     if (data.length === 17) {
                       if (data) params.append("device_id", data);
                       const query = params.size ? "?" + params.toString() : "";
-                      router.push("Device_registration/form" + query);
+                      router.push("DeviceForm" + query);
                     } else {
                       toast.error("Not a valid Track ID");
                     }
@@ -195,7 +196,7 @@ const QRCodePage = ({ Page, trackId }: { Page: string; trackId?: string }) => {
                             },
                           }
                         );
-                        router.push("Tracking_registration/form" + query);
+                        router.push("TrackForm" + query);
                       } catch (error: any) {
                         if (error.response && error.response.status === 409) {
                           toast.error("All Processing Types are full");
@@ -215,6 +216,6 @@ const QRCodePage = ({ Page, trackId }: { Page: string; trackId?: string }) => {
       </div>
     </div>
   );
-}
+};
 
 export default QRCodePage;

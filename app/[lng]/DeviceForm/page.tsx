@@ -28,10 +28,10 @@ import {
 import axios from "axios";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
-import { useTranslation } from "../../../i18n/client";
-import { useDeviceRegistrationStore } from "../../../store";
-import NavbarPage from "../../navbar/page";
-import SidebarPage from "../../sidebar/page";
+import { useTranslation } from "../../i18n/client";
+import { useDeviceRegistrationStore } from "../../store";
+import NavbarPage from "../navbar/page";
+import SidebarPage from "../sidebar/page";
 import { toast } from "sonner";
 const DeviceRegistrationFormPage = () => {
   const [error, setError] = useState(true);
