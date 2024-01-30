@@ -25,6 +25,9 @@ interface RootLayoutProps {
 const RootLayout = async ({ children, params: { lng } }: RootLayoutProps) => {
   return (
     <html lang={lng} dir={dir(lng)}>
+      <head>
+        <link rel="stylesheet" type="text/css" href="../globals.css" />
+      </head>
       <body className={inter.className}>
         {/* <div className="flex flex-col h-screen">
           <div className="flex"> */}
