@@ -168,7 +168,7 @@ const TrackInfoCard = () => {
       シリアル: inf.data.body.serial,
     };
 
-    const tableXR = 45;
+    const tableXR = 55;
     const tableYR = 125;
     const lineHeight = 10;
 
@@ -425,7 +425,7 @@ const TrackInfoCard = () => {
       Serial: inf.data.body.serial,
     };
 
-    const tableXR = 45;
+    const tableXR = 55;
     const tableYR = 125;
     const lineHeight = 7;
 

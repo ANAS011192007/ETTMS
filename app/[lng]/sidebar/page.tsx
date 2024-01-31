@@ -42,7 +42,7 @@ const SidebarPage = () => {
             <div
               className={`${
                 pathname === `/${lng}/Device_registration` ||
-                pathname === `/${lng}/Device_registration/form`
+                pathname === `/${lng}/DeviceForm`
                   ? "font-bold"
                   : "font-medium"
               } text-slate-600 ml-1`}
@@ -72,7 +72,7 @@ const SidebarPage = () => {
             <div
               className={`${
                 pathname === `/${lng}/Tracking_registration` ||
-                pathname === `/${lng}/Tracking_registration/form`
+                pathname === `/${lng}/TrackForm`
                   ? "font-bold"
                   : "font-medium"
               } text-slate-600 ml-1`}

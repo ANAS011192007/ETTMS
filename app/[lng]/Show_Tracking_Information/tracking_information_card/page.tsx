@@ -39,16 +39,45 @@ const TrackingCard = () => {
       );
       info.current = infos.data.body;
       console.log("sadas", info.current!);
-      dataList.current = infos.data.body.map((item: any) => ({
-        id: item._id,
-        "Processing Type": item.processing_type,
-        "Created at": item.createdAt,
-        Location: item.location,
-        "Tool Used": item.tool.name_en,
-        "Recorded By": `${item.recorded_by.first_name} ${item.recorded_by.last_name}`,
-        Image: item.image_link,
-      }));
+      // dataList.current = infos.data.body.map((item: any) => ({
 
+      //   // id: item._id,
+      //   // "Processing Type": item.processing_type,
+      //   // "Created at": item.createdAt,
+      //   // Location: item.location,
+      //   // "Tool Used": item.tool.name_en,
+      //   // "Recorded By": `${item.recorded_by.first_name} ${item.recorded_by.last_name}`,
+      //   // Image: item.image_link,
+      // }));
+      dataList.current = infos.data.body.map((item: any) => {
+        const createdAt = new Date(item.createdAt);
+
+        const formattedDate = `${createdAt.getFullYear()}-${(
+          createdAt.getMonth() + 1
+        )
+          .toString()
+          .padStart(2, "0")}-${createdAt
+          .getDate()
+          .toString()
+          .padStart(2, "0")}`;
+
+        const formattedTime = createdAt.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true,
+        });
+
+        return {
+          id: item._id,
+          "Processing Type": item.processing_type,
+          "Created at": `${formattedDate}\n${formattedTime}`,
+          Location: item.location,
+          "Tool Used": item.tool.name_en,
+          "Recorded By": `${item.recorded_by.first_name} ${item.recorded_by.last_name}`,
+          Image: item.image_link,
+        };
+      });
       console.log(dataList);
       setLoading(false);
     } catch (error) {
@@ -87,7 +116,7 @@ const TrackingCard = () => {
                     {t("pType", { processingType: data["Processing Type"] })}
                   </TableCell>
                   <TableCell className="font-medium">
-                    {data["Created at"]?.slice(0, 19).replace("T", ", ")}
+                    {data["Created at"]}
                   </TableCell>
                   <TableCell>{data.Location}</TableCell>
                   <TableCell>{data["Tool Used"]}</TableCell>

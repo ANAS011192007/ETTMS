@@ -4,24 +4,24 @@ import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import QRCode from "react-qr-code";
-import { useZxing } from "react-zxing";
+// import { useZxing } from "react-zxing";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-
+import QrReader from "react-qr-reader";
 const QRScanPage = ({ Page, trackId }: { Page: string; trackId?: string }) => {
   const [data, setData] = useState("No result");
 
   const [showQRReader, setShowQRReader] = useState(false);
   const [showAlertDialog, setShowAlertDialog] = useState(false);
   const router = useRouter();
-  const { ref } = useZxing({
-    onDecodeResult(result) {
-      setData(result.getText());
-      handleDecodedData(result.getText());
-    },
-    paused: !showQRReader,
-  });
+  // const { ref } = useZxing({
+  //   onDecodeResult(result) {
+  //     setData(result.getText());
+  //     handleDecodedData(result.getText());
+  //   },
+  //   paused: !showQRReader,
+  // });
 
   const handleDecodedData = async (datas: string) => {
     const params = new URLSearchParams();
@@ -143,7 +143,7 @@ const QRScanPage = ({ Page, trackId }: { Page: string; trackId?: string }) => {
         }
       } else {
         // Handle other types of errors here
-        toast.error("An error occurred. Please try again.");
+        // toast.error("An error occurred. Please try again.");
       }
     }
   };
@@ -197,11 +197,37 @@ const QRScanPage = ({ Page, trackId }: { Page: string; trackId?: string }) => {
                 </div>
               )}
 
-              <video
+              {/* <video
                 className="w-64 p-2 border-2 border-slate-600 rounded-md"
                 ref={ref}
                 style={{ display: showQRReader ? "" : "none" }}
-              />
+              /> */}
+              {showQRReader && (
+                // <QrReader
+                //   className="w-64  p-2 border-2 border-slate-600 rounded-md"
+                //   onResult={(result: any, error: any) => {
+                //     if (!!result) {
+                //       setData(result?.getText());
+                //       // console.log(result?.getText());
+                //       handleDecodedData(result.getText());
+                //     }
+
+                //     if (!!error) {
+                //       console.info(error);
+                //     }
+                //   }}
+                //   constraints={{ facingMode: "user" }}
+                // />
+                <div className="w-64">
+                  <QrReader
+                    className="p-2 border-2 border-slate-600 rounded-md"
+                    onError={handleStopButtonClick}
+                    onScan={(result: any) => handleDecodedData(result!)}
+                    style={{ width: "100%" }}
+                    showViewFinder={false}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -348,6 +374,6 @@ const QRScanPage = ({ Page, trackId }: { Page: string; trackId?: string }) => {
       </div>
     </div>
   );
-}
+};
 
 export default QRScanPage;
